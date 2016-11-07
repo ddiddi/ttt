@@ -177,7 +177,7 @@ def executeParams(text,user_name, channel_id):
 		print ('In the %s, %s by %s topped the charts for %d straight weeks.' % (doc['decade'], doc['song'], doc['artist'], doc['weeksAtOne']))
 	"""
 	global game 	
-	
+	print("Here 1")
 	"""print("ASDDDDDDDDD")
 	board_json = [ { 'a1':game.peekBoardValue('a1'), 'a2':game.peekBoardValue('a2'), 'a3':game.peekBoardValue('a3'), }]
 	game_json = json.dumps(board_json)
@@ -199,7 +199,7 @@ def executeParams(text,user_name, channel_id):
 	subcommand = params[0]
 	if len(params)>1:
 		commandValue = params[1]
-	
+	print("Here 2")
 	print(subcommand)
 	print(commandValue)
 	if subcommand[0] == '@' and commandValue == '':
