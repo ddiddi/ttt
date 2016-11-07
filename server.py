@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, request, jsonify
 
 app = Flask(__name__)
 
@@ -120,7 +120,13 @@ def game():
 	user_name = request.form['user_name']
 	print("****Logging*****In main function before exit")
 	output = str(executeParams(text,user_name))
-	return output,200
+	return jsonify(
+		success = True,
+		data = {
+			'text': output
+			'mrkdown': False
+		}
+		)
 	#print user_name
 	#return '| X | 0 | 0 |\n|---+---+---|\n| X | 0 | 0 |\n|---+---+---|\n| X | 0 | 0 |',200
 
