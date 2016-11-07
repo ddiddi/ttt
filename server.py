@@ -223,10 +223,7 @@ def executeParams(text,user_name):
 		return op1+op2+game.currentBoardString()+nextTurn
 	
 	elif subcommand == 'help':
-		return ("\/ttt ls: To see an ongoing game\n 
-				 \/ttt @<username>: To challenge someone in the channel \n
-				 \/ttt put <row alphabet><column number>: To put a mark at the position \n
-				 \/ttt help: To see this menu again")
+		return ("\/ttt ls: To see an ongoing game\n \/ttt @<username>: To challenge someone in the channel \n\/ttt put <row alphabet><column number>: To put a mark at the position \n\/ttt help: To see this menu again")
 	else:
 		return "Sorry, that doesn't seem like a valid command. \n Use \/ttt help to know more"
 
