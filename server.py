@@ -1,6 +1,5 @@
 from flask import Flask, request
 import pymongo
-import json
 
 SEED_DATA = [
     {
@@ -205,7 +204,7 @@ game = tictactoe(None, None, False)
 client = pymongo.MongoClient(MONGODB_URI)
 db = client.get_default_database()
 gamedb = db['GameData']
-game_json = json.dumps(game, default=lambda o: o.__dict__)
+game_json = jsonify(game)
 print(SEED_DATA)
 print(game_json)
 gamedb.insert(game_json)
