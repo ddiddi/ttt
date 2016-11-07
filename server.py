@@ -5,6 +5,8 @@ app = Flask(__name__)
 @app.route("/",methods=['POST'])
 def game():
 	input_json = request.get_json(force=True)
+	print(input_json)
+	print("logging")
 	return 'Master',200
 #    return 'Test',200
 
