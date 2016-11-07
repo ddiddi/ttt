@@ -213,4 +213,4 @@ game = tictactoe(None, None, False)
 
 client = pymongo.MongoClient(MONGODB_URI)
 db = client.get_default_database()
-gamedb = db['GameData']
+gamedb = db['gamedb']
