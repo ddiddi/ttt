@@ -50,6 +50,8 @@ class tictactoe:
 	def currentBoardString(self):
 		header = '1   2   3  \n'
 		print(self.boardValues)
+		print(self.boardValues[0])
+		print(self.boardValues[2])
 		topLine = 'a| '+self.boardValues[0]+' | '+self.boardValues[1]+' | '+self.boardValues[2]+' |\n'
 		breakLine = '|---+---+---|\n'
 		middleLine = 'b*| '+self.boardValues[3]+' | '+self.boardValues[4]+' | '+self.boardValues[5]+' |\n'
