@@ -36,6 +36,7 @@ class tictactoe:
 		return -1
 
 	def getBoardIndex(position):
+		print("WWWWWWdd")
 		return {
 			'a1':0,
 			'a2':1,
