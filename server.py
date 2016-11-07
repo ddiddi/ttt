@@ -227,10 +227,8 @@ def executeParams(text,user_name):
 
 	elif subcommand == 'put':
 		m = game.changeBoardValue(commandValue,game.getFirstPlayerSymbol())
-		op1 = 'First Player : ' + game.getFirstPlayer() +'\n'
-		op2 = 'Second Player: ' + game.getSecondPlayer()+'\n'
-		nextTurn = 'Turn: ' + game.getNextTurn()
-		return op1+op2+game.currentBoardString()+nextTurn
+		pnextTurn = 'Turn: ' + game.getNextTurn()
+		return game.currentBoardString()+pnextTurn
 	
 	elif subcommand == 'help':
 		return ("/ttt ls: To see an ongoing game\n /ttt @<username>: To challenge someone in the channel \n/ttt put <row alphabet><column number>: To put a mark at the position \n/ttt help: To see this menu again")
