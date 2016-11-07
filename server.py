@@ -14,6 +14,7 @@ class tictactoe:
 		self.firstPlayer = firstPlayer
 		self.secondPlayer = secondPlayer
 		self.gameOn = gameStatus
+		self.nextTurn = self.firstPlayer
 
 	def peekBoardValue(self, position):
 		idx = getBoardIndex(position) 
@@ -23,6 +24,7 @@ class tictactoe:
 
 	def changeBoardValue(self, position, newValue):
 		idx = getBoardIndex(position)
+		changeNextTurn()
 		if idx != -1:
 			self.boardValues[idx] = newValue
 			return 0
@@ -48,7 +50,7 @@ class tictactoe:
 		self.gameOn = newValue
 
 	def currentBoardString(self):
-		header = '**1 2 3  \n'
+		header = '*1 2 3  \n'
 		print(self.boardValues)
 		print(self.boardValues[0])
 		print(self.boardValues[2])
@@ -105,6 +107,11 @@ class tictactoe:
 			return getSecondPlayer()
 		return -1
 
+	def changeNextTurn(self):
+		if nextTurn == firstPlayer:
+			nextTurn = secondPlayer
+		nextTurn == firstPlayer
+
 @app.route("/",methods=['POST','GET'])
 def game():
 	print("****Logging*****In main function")
@@ -146,6 +153,11 @@ def executeParams(text,user_name):
 		print("****Logging*****In If Condition")
 		global game 
 		game = tictactoe(user_name, subcommand[1:])
+	print("****Logging*****In executeParams before put")
+	if subcommand == 'put':
+		print("****Logging*****In executeParams in put")
+		game.changeBoardValue(commandValue,game.nextTurn.getFirstPlayerSymbol)
+		print("****Logging*****In executeParams after put")
 
 	if subcommand == 'help':
 		return "These are valid"
