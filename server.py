@@ -40,6 +40,7 @@ class tictactoe:
 		self.secondPlayer = secondPlayer
 		self.gameOn = gameStatus
 		self.nextTurn = self.firstPlayer
+		self.clearBoard()
 
 	def peekBoardValue(self, position):
 		idx = self.getBoardIndex(position) 
@@ -54,6 +55,9 @@ class tictactoe:
 			self.boardValues[i] = newValue
 			return 0
 		return -1
+
+	def clearBoard(self):
+		self.boardValues = ['-','-','-','-','-','-','-','-','-']
 
 	def getGameStatus(self):
 		return self.gameOn
@@ -82,15 +86,10 @@ class tictactoe:
 
 	def currentBoardString(self):
 		header = '*1 2 3  \n'
-		print(self.boardValues)
-		print(self.boardValues[0])
-		print(self.boardValues[2])
 		topLine = 'a '+self.boardValues[0]+' '+self.boardValues[1]+' '+self.boardValues[2]+'\n'
-		print(topLine)
 		middleLine = 'b '+self.boardValues[3]+' '+self.boardValues[4]+' '+self.boardValues[5]+'\n'
 		bottomLine = 'c '+self.boardValues[6]+' '+self.boardValues[7]+' '+self.boardValues[8]+'\n'
 		output = header+topLine+middleLine+bottomLine
-		print(output) 
 		return output
 
 	def getFirstPlayer(self):
@@ -231,7 +230,12 @@ def executeParams(text,user_name):
 		print("asdasdasd 2")
 		pnextTurn = 'Turn: ' + game.getNextTurn()
 		print("asdasdasd 3")
-		return game.currentBoardString()+pnextTurn
+		end = checkGameEndCondition()
+		if end == -1:
+			return game.currentBoardString()+pnextTurn
+		else:
+			game = tictactoe(None, None, False)
+			return "The Winner is " + end
 	
 	elif subcommand == 'help':
 		return ("/ttt ls: To see an ongoing game\n /ttt @<username>: To challenge someone in the channel \n/ttt put <row alphabet><column number>: To put a mark at the position \n/ttt help: To see this menu again")
