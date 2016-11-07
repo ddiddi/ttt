@@ -18,7 +18,7 @@ def game():
 	print user_name
 
 
-	return 'Test',200
+	return '| X | 0 | 0 |\n| X | 0 | 0 |\n| X | 0 | 0 |',200
 
 if __name__ == "__main__":
     app.run()
