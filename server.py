@@ -178,7 +178,9 @@ def executeParams(text,user_name):
 	print(game_json)
 	gamedb.insert(board_json)
 
+	cursor = gamedb.find_one()
 	print("ASDDDDDDDDDwsss")
+	print(cursor)
 	db.drop_collection('gamedb')
 	client.close()
 
