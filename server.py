@@ -200,6 +200,8 @@ def executeParams(text,user_name):
 	if len(params)>1:
 		commandValue = params[1]
 	
+	print(subcommand)
+	print(commandValue)
 	if subcommand[0] == '@' and commandValue == '':
 		if game.getGameStatus():
 			return "A ttt game is already on.\n Use /ttt help to know more."
