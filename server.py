@@ -122,8 +122,10 @@ def game():
 
 def executeParams(text,user_name):
 	print("****Logging*****In executeParams")
+	params = []
 	params = str(text).split(" ")
 	print("****Logging*****In executeParams 126")
+	print(params)
 	subcommand = 'help'
 	print("****Logging*****In executeParams 128")
 	commandValue = ''
