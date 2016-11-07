@@ -1,4 +1,5 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request
+import json
 import pymongo
 
 SEED_DATA = [
@@ -171,7 +172,8 @@ def executeParams(text,user_name):
 	"""
 	global game 	
 	print("ASDDDDDDDDD")
-	game_json = jsonify(game)
+	board_json = [ { "a1":game.peekBoardValue('a1'), "a2":game.peekBoardValue('a2'), "a3":game.peekBoardValue('a3'), }]
+	game_json = json.dumps(board_json)
 	print(SEED_DATA)
 	print(game_json)
 	gamedb.insert(game_json)
