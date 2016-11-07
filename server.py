@@ -250,6 +250,7 @@ def isValidUsername(username, channel_id):
 	print("asdddddddd")
 	response = sc.api_call("channels.info",channel=channel_id)
 	print(response)
+	print(response['channel']['members'])
 	return True
 
 if __name__ == "__main__":
