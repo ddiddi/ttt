@@ -200,7 +200,7 @@ def executeParams(text,user_name):
 	if len(params)>1:
 		commandValue = params[1]
 	
-	if subcommand[0] == '@' and isValidUsername(subcommand[1:]) and commandValue == '':
+	if subcommand[0] == '@' and commandValue == '':
 		if game.getGameStatus():
 			return "A ttt game is already on.\n Use /ttt help to know more."
 		else:
@@ -217,7 +217,7 @@ def executeParams(text,user_name):
 			return op1+op2+game.currentBoardString()+nextTurn
 		else:
 			return "Seems like there isn't any ttt game on right now"
-			
+
 	elif subcommand == 'put':
 		m = game.changeBoardValue(commandValue,game.getFirstPlayerSymbol())
 		op1 = 'First Player : ' + game.getFirstPlayer() +'\n'
