@@ -207,10 +207,12 @@ def executeParams(text,user_name):
 			return "A ttt game is already on.\n Use /ttt help to know more."
 		else:
 			if isValidUsername(subcommand[1:]):
+				print("working here")
 				game = tictactoe(user_name, subcommand[1:])
 				op1 = 'First Player : ' + game.getFirstPlayer() + game.getFirstPlayerSymbol()+'\n'
 				op2 = 'Second Player: ' + game.getSecondPlayer()+ game.getSecondPlayerSymbol()+'\n'
 				nextTurn = 'Turn: ' + game.getNextTurn()
+				print("working here 2")
 				return op1+op2+game.currentBoardString()+nextTurn
 			else:
 				return "Seems like this user is not in this channel"
