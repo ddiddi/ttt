@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request
 
 app = Flask(__name__)
 
@@ -48,7 +48,7 @@ class tictactoe:
 		self.gameOn = newValue
 
 	def currentBoardString(self):
-		header = '**1   2   3  \n'
+		header = '**1 2 3  \n'
 		print(self.boardValues)
 		print(self.boardValues[0])
 		print(self.boardValues[2])
@@ -120,13 +120,7 @@ def game():
 	user_name = request.form['user_name']
 	print("****Logging*****In main function before exit")
 	output = str(executeParams(text,user_name))
-	return jsonify(
-		success = True,
-		data = {
-			'text': output,
-			'mrkdown': False
-		}
-		)
+	return output,200
 	#print user_name
 	#return '| X | 0 | 0 |\n|---+---+---|\n| X | 0 | 0 |\n|---+---+---|\n| X | 0 | 0 |',200
 
