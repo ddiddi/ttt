@@ -210,11 +210,14 @@ def executeParams(text,user_name):
 				return "Seems like this user is not in this channel"
 	
 	elif subcommand == 'ls' and commandValue == '':
-		op1 = 'First Player : ' + game.getFirstPlayer() +'\n'
-		op2 = 'Second Player: ' + game.getSecondPlayer()+'\n'
-		nextTurn = 'Turn: ' + game.getNextTurn()
-		return op1+op2+game.currentBoardString()+nextTurn
-
+		if game.getGameStatus():
+			op1 = 'First Player : ' + game.getFirstPlayer() +'\n'
+			op2 = 'Second Player: ' + game.getSecondPlayer()+'\n'
+			nextTurn = 'Turn: ' + game.getNextTurn()
+			return op1+op2+game.currentBoardString()+nextTurn
+		else:
+			return "Seems like there isn't any ttt game on right now"
+			
 	elif subcommand == 'put':
 		m = game.changeBoardValue(commandValue,game.getFirstPlayerSymbol())
 		op1 = 'First Player : ' + game.getFirstPlayer() +'\n'
