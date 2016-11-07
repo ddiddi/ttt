@@ -169,15 +169,18 @@ def executeParams(text,user_name):
 	for doc in cursor:
 		print ('In the %s, %s by %s topped the charts for %d straight weeks.' % (doc['decade'], doc['song'], doc['artist'], doc['weeksAtOne']))
 	"""
-	global game 
+	global game 	
+	print("ASDDDDDDDDD")
 	game_json = jsonify(game)
 	print(SEED_DATA)
 	print(game_json)
 	gamedb.insert(game_json)
 
+	print("ASDDDDDDDDDwsss")
 	db.drop_collection('gamedb')
 	client.close()
 
+	print("ASDDDDDDDDDssssssssssss")
 	params = str(text).split(" ")
 	subcommand = 'help'
 	commandValue = ''
