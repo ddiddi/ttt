@@ -256,9 +256,11 @@ if __name__ == "__main__":
     app.run()
 
 
+print("mmmmmmmmm")
 game = tictactoe(None, None, False)
-
+print("mmmmmmmmm3")
 sc = SlackClient('xoxp-98588410882-98566920132-101647984725-1587c9429306264be388b906421cf154')
+print("mmmmmmmmm2")
 client = pymongo.MongoClient(MONGODB_URI)
 db = client.get_default_database()
 gamedb = db['gamedb']
