@@ -2,7 +2,7 @@ from flask import Flask, request
 
 app = Flask(__name__)
 
-@app.route("/",methods=['POST'])
+@app.route("/",methods=['POST','GET'])
 def game():
 	input_json = request.get_json(force=True)
 	print(input_json)
