@@ -1,5 +1,28 @@
 from flask import Flask, request
+import pymongo
 
+SEED_DATA = [
+    {
+        'decade': '1970s',
+        'artist': 'Debby Boone',
+        'song': 'You Light Up My Life',
+        'weeksAtOne': 10
+    },
+    {
+        'decade': '1980s',
+        'artist': 'Olivia Newton-John',
+        'song': 'Physical',
+        'weeksAtOne': 10
+    },
+    {
+        'decade': '1990s',
+        'artist': 'Mariah Carey',
+        'song': 'One Sweet Day',
+        'weeksAtOne': 16
+    }
+]
+
+MONGODB_URI = 'mongodb://heroku_k89bf523:c2e67sq8bm6cgs8qdpslhbjmrv@ds147267.mlab.com:47267/heroku_k89bf523'
 
 app = Flask(__name__)
 
@@ -24,20 +47,14 @@ class tictactoe:
 		return -1
 
 	def changeBoardValue(self, position, newValue):
-		print("WWWWWW")
 		i = self.getBoardIndex(position)
-		print("WWWWWW2")
 		self.changeNextTurn()
-		print("WWWWWW3")
 		if i != -1:
-			print("WWWWWW4")
 			self.boardValues[i] = newValue
-			print("WWWWWW5")
 			return 0
 		return -1
 
 	def getBoardIndex(self, position):
-		print("WWWWWWdd")
 		return {
 			'a1':0,
 			'a2':1,
@@ -136,7 +153,6 @@ def game():
 	channel_name = request.form['channel_name']
 	text = request.form['text']
 	user_name = request.form['user_name']
-	print("****Logging*****In main function before exit")
 	output = str(executeParams(text,user_name))
 	return output,200
 	#print user_name
@@ -145,38 +161,40 @@ def game():
 
 
 def executeParams(text,user_name):
-	print("****Logging*****In executeParams")
-	params = str(text).split(" ")
-	print("****Logging*****In executeParams 126")
-	print(params)
-	subcommand = 'help'
-	print("****Logging*****In executeParams 128")
-	commandValue = ''
-	print("****Logging*****In executeParams 130")
-	print("****Logging*****In executeParams 132")
-	subcommand = params[0]
-	if len(params)>1:	
-		print("****Logging*****In executeParams 135")
-		commandValue = params[1]
+	client = pymongo.MongoClient(MONGODB_URI)
+	db = client.get_default_database()
+	songs = db['songs']
+	songs.insert(SEED_DATA)
+	query = {'song': 'One Sweet Day'}
 
-	print("****Logging*****In executeParams 138")
+    songs.update(query, {'$set': {'artist': 'Mariah Carey ft. Boyz II Men'}})
+    cursor = songs.find({'weeksAtOne': {'$gte': 10}}).sort('decade', 1)
+
+    for doc in cursor:
+        print ('In the %s, %s by %s topped the charts for %d straight weeks.' %
+               (doc['decade'], doc['song'], doc['artist'], doc['weeksAtOne']))
+
+    db.drop_collection('songs')
+
+    client.close()
+
+	params = str(text).split(" ")
+	subcommand = 'help'
+	commandValue = ''
+	subcommand = params[0]
+	if len(params)>1:
+		commandValue = params[1]
+	
 	if subcommand[0] == '@' and isValidUsername(subcommand[1:]):
-		print("****Logging*****In If Condition")
 		global game 
 		game = tictactoe(user_name, subcommand[1:])
-	print("****Logging*****In executeParams before put")
+	
 	if subcommand == 'put':
-		print("****Logging*****In executeParams in put")
-		print(commandValue)
-		print(game.getNextTurn())
-		print(game.getFirstPlayerSymbol())
 		m = game.changeBoardValue(commandValue,game.getFirstPlayerSymbol())
-		print("****Logging*****In executeParams after put")
-
+	
 	if subcommand == 'help':
 		return "These are valid"
 
-	print("****Logging*****In executeParams before exit")
 	return game.currentBoardString()
 
 
