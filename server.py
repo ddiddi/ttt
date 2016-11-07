@@ -137,5 +137,5 @@ def isValidUsername(username):
 if __name__ == "__main__":
     app.run()
 
-game = tictactoe(None, None. False)
+game = tictactoe(None, None, False)
 
