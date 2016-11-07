@@ -30,7 +30,7 @@ class tictactoe:
 		print("WWWWWW3")
 		if i != -1:
 			print("WWWWWW4")
-			self.boardValues[idx] = newValue
+			self.boardValues[i] = newValue
 			print("WWWWWW5")
 			return 0
 		return -1
