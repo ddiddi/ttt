@@ -176,7 +176,7 @@ def executeParams(text,user_name):
 	game_json = json.dumps(board_json)
 	print(SEED_DATA)
 	print(game_json)
-	gamedb.insert(SEED_DATA)
+	gamedb.insert(board_json)
 
 	print("ASDDDDDDDDDwsss")
 	db.drop_collection('gamedb')
