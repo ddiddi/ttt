@@ -114,7 +114,7 @@ def game():
 	text = request.form['text']
 	user_name = request.form['user_name']
 	print("****Logging*****In main function before exit")
-	return executeParams(text),200
+	return executeParams(text,user_name),200
 	#print user_name
 	#return '| X | 0 | 0 |\n|---+---+---|\n| X | 0 | 0 |\n|---+---+---|\n| X | 0 | 0 |',200
 
