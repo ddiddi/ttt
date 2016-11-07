@@ -123,7 +123,7 @@ def game():
 	return jsonify(
 		success = True,
 		data = {
-			'text': output
+			'text': output,
 			'mrkdown': False
 		}
 		)
