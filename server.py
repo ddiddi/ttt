@@ -169,7 +169,7 @@ def executeParams(text,user_name):
 	for doc in cursor:
 		print ('In the %s, %s by %s topped the charts for %d straight weeks.' % (doc['decade'], doc['song'], doc['artist'], doc['weeksAtOne']))
 	"""
-
+	global game 
 	game_json = jsonify(game)
 	print(SEED_DATA)
 	print(game_json)
@@ -186,7 +186,6 @@ def executeParams(text,user_name):
 		commandValue = params[1]
 	
 	if subcommand[0] == '@' and isValidUsername(subcommand[1:]):
-		global game 
 		game = tictactoe(user_name, subcommand[1:])
 	
 	if subcommand == 'put':
