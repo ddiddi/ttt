@@ -226,8 +226,11 @@ def executeParams(text,user_name):
 			return "Seems like there isn't any ttt game on right now"
 
 	elif subcommand == 'put':
+		print("asdasdasd")
 		m = game.changeBoardValue(commandValue,game.getFirstPlayerSymbol())
+		print("asdasdasd 2")
 		pnextTurn = 'Turn: ' + game.getNextTurn()
+		print("asdasdasd 3")
 		return game.currentBoardString()+pnextTurn
 	
 	elif subcommand == 'help':
