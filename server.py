@@ -161,9 +161,9 @@ def executeParams(text,user_name):
 	if subcommand == 'put':
 		print("****Logging*****In executeParams in put")
 		print(commandValue)
-		print(game.nextTurn)
-		print(game.nextTurn.getFirstPlayerSymbol())
-		game.changeBoardValue(commandValue,game.nextTurn.getFirstPlayerSymbol())
+		print(game.getNextTurn())
+		print(game.getFirstPlayerSymbol())
+		game.changeBoardValue(commandValue,game.getFirstPlayerSymbol())
 		print("****Logging*****In executeParams after put")
 
 	if subcommand == 'help':
