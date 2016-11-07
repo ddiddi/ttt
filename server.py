@@ -48,16 +48,15 @@ class tictactoe:
 		self.gameOn = newValue
 
 	def currentBoardString(self):
-		header = '1   2   3  \n'
+		header = '***1   2   3  \n'
 		print(self.boardValues)
 		print(self.boardValues[0])
 		print(self.boardValues[2])
-		topLine = 'a| '+self.boardValues[0]+' | '+self.boardValues[1]+' | '+self.boardValues[2]+' |\n'
+		topLine = 'a '+self.boardValues[0]+' '+self.boardValues[1]+' '+self.boardValues[2]+'\n'
 		print(topLine)
-		breakLine = '|---+---+---|\n'
-		middleLine = 'b*| '+self.boardValues[3]+' | '+self.boardValues[4]+' | '+self.boardValues[5]+' |\n'
-		bottomLine = 'c*| '+self.boardValues[6]+' | '+self.boardValues[7]+' | '+self.boardValues[8]+' |\n'
-		output = header+topLine+breakLine+middleLine+breakLine+bottomLine
+		middleLine = 'b '+self.boardValues[3]+' '+self.boardValues[4]+' '+self.boardValues[5]+'\n'
+		bottomLine = 'c '+self.boardValues[6]+' '+self.boardValues[7]+' '+self.boardValues[8]+'\n'
+		output = header+topLine+middleLine+bottomLine
 		print(output) 
 		return output
 
