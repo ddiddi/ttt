@@ -161,11 +161,8 @@ def game():
 
 
 def executeParams(text,user_name):
-	client = pymongo.MongoClient(MONGODB_URI)
-	db = client.get_default_database()
-	songs = db['songs']
-	songs.insert(SEED_DATA)
-	query = {'song': 'One Sweet Day'}
+	
+"""query = {'song': 'One Sweet Day'}
 
 	songs.update(query, {'$set': {'artist': 'Mariah Carey ft. Boyz II Men'}})
 	cursor = songs.find({'weeksAtOne': {'$gte': 10}}).sort('decade', 1)
@@ -173,7 +170,9 @@ def executeParams(text,user_name):
 	for doc in cursor:
 		print ('In the %s, %s by %s topped the charts for %d straight weeks.' % (doc['decade'], doc['song'], doc['artist'], doc['weeksAtOne']))
 
-	db.drop_collection('songs')
+"""
+
+	db.drop_collection('gamedb')
 	client.close()
 
 	params = str(text).split(" ")
@@ -204,3 +203,10 @@ if __name__ == "__main__":
 
 game = tictactoe(None, None, False)
 
+client = pymongo.MongoClient(MONGODB_URI)
+db = client.get_default_database()
+gamedb = db['GameData']
+game_json = json.dumps(game, default=lambda o: o.__dict__)
+print(SEED_DATA)
+print(game_json)
+gamedb.insert(game_json)
