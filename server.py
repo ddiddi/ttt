@@ -26,7 +26,7 @@ class tictactoe:
 		print("WWWWWW")
 		i = self.getBoardIndex(position)
 		print("WWWWWW2")
-		changeNextTurn()
+		self.changeNextTurn()
 		print("WWWWWW3")
 		if i != -1:
 			print("WWWWWW4")
