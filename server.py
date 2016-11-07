@@ -113,14 +113,13 @@ def game():
 	channel_name = request.form['channel_name']
 	text = request.form['text']
 	user_name = request.form['user_name']
-	return executeParams(request.form()),200
+	return executeParams(text),200
 	#print user_name
 	#return '| X | 0 | 0 |\n|---+---+---|\n| X | 0 | 0 |\n|---+---+---|\n| X | 0 | 0 |',200
 
 
 
-def executeParams(input_command_form):
-	text = input_command_form['text']
+def executeParams(text):
 	params = text.split(" ")
 	subcommand = params[0]
 	commandValue = params[1]
