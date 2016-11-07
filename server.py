@@ -1,5 +1,4 @@
-from flask import Flask, request
-import json
+from flask import Flask, request, jsonify
 import pymongo
 
 SEED_DATA = [
@@ -171,6 +170,11 @@ def executeParams(text,user_name):
 		print ('In the %s, %s by %s topped the charts for %d straight weeks.' % (doc['decade'], doc['song'], doc['artist'], doc['weeksAtOne']))
 	"""
 
+	game_json = jsonify(game)
+	print(SEED_DATA)
+	print(game_json)
+	gamedb.insert(game_json)
+
 	db.drop_collection('gamedb')
 	client.close()
 
@@ -206,7 +210,3 @@ game = tictactoe(None, None, False)
 client = pymongo.MongoClient(MONGODB_URI)
 db = client.get_default_database()
 gamedb = db['GameData']
-game_json = json.dumps(game, default=lambda o: o.__dict__)
-print(SEED_DATA)
-print(game_json)
-gamedb.insert(game_json)
