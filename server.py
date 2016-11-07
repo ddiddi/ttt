@@ -5,7 +5,7 @@ app = Flask(__name__)
 class tictactoe:
 	'Base class from Tic Tac Toe Game'
 
-	boardValues = ['_','_','_','_','_','_','_','_','_']
+	boardValues = ['-','-','-','-','-','-','-','-','-']
 	gameOn = False
 	firstPlayerSymbol = 'X'
 	secondPlayerSymbol = 'O'
@@ -48,7 +48,7 @@ class tictactoe:
 		self.gameOn = newValue
 
 	def currentBoardString(self):
-		header = '***1   2   3  \n'
+		header = '**1   2   3  \n'
 		print(self.boardValues)
 		print(self.boardValues[0])
 		print(self.boardValues[2])
@@ -119,7 +119,8 @@ def game():
 	text = request.form['text']
 	user_name = request.form['user_name']
 	print("****Logging*****In main function before exit")
-	return executeParams(text,user_name),200
+	output = str(executeParams(text,user_name))
+	return output,200
 	#print user_name
 	#return '| X | 0 | 0 |\n|---+---+---|\n| X | 0 | 0 |\n|---+---+---|\n| X | 0 | 0 |',200
 
