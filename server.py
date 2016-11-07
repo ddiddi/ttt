@@ -25,9 +25,13 @@ class tictactoe:
 	def changeBoardValue(self, position, newValue):
 		print("WWWWWW")
 		idx = getBoardIndex(position)
+		print("WWWWWW2")
 		changeNextTurn()
+		print("WWWWWW3")
 		if idx != -1:
+			print("WWWWWW4")
 			self.boardValues[idx] = newValue
+			print("WWWWWW5")
 			return 0
 		return -1
 
