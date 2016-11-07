@@ -17,18 +17,18 @@ class tictactoe:
 		self.nextTurn = self.firstPlayer
 
 	def peekBoardValue(self, position):
-		idx = getBoardIndex(position) 
+		idx = self.getBoardIndex(position) 
 		if idx != -1:
 			return self.boardValues[idx]
 		return -1
 
 	def changeBoardValue(self, position, newValue):
 		print("WWWWWW")
-		idx = getBoardIndex(position)
+		i = self.getBoardIndex(position)
 		print("WWWWWW2")
 		changeNextTurn()
 		print("WWWWWW3")
-		if idx != -1:
+		if i != -1:
 			print("WWWWWW4")
 			self.boardValues[idx] = newValue
 			print("WWWWWW5")
