@@ -15,10 +15,17 @@ def game():
 	channel_name = request.form['channel_name']
 	text = request.form['text']
 	user_name = request.form['user_name']
-	print user_name
+	return checkValidParams(text),200
+	#print user_name
+	#return '| X | 0 | 0 |\n|---+---+---|\n| X | 0 | 0 |\n|---+---+---|\n| X | 0 | 0 |',200
 
 
-	return '| X | 0 | 0 |\n| X | 0 | 0 |\n| X | 0 | 0 |',200
+def checkValidParams(text):
+	params = text.split(" ")
+	return {
+		'@username': 1,
+		'check':2
+	}.get(params[0], "Sorry input command seems invalid")
 
 if __name__ == "__main__":
     app.run()
