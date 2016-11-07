@@ -23,6 +23,7 @@ class tictactoe:
 		return -1
 
 	def changeBoardValue(self, position, newValue):
+		print("WWWWWW")
 		idx = getBoardIndex(position)
 		changeNextTurn()
 		if idx != -1:
@@ -163,7 +164,7 @@ def executeParams(text,user_name):
 		print(commandValue)
 		print(game.getNextTurn())
 		print(game.getFirstPlayerSymbol())
-		game.changeBoardValue(commandValue,game.getFirstPlayerSymbol())
+		m = game.changeBoardValue(commandValue,game.getFirstPlayerSymbol())
 		print("****Logging*****In executeParams after put")
 
 	if subcommand == 'help':
