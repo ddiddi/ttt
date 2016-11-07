@@ -205,7 +205,7 @@ game = tictactoe(None, None, False)
 client = pymongo.MongoClient(MONGODB_URI)
 db = client.get_default_database()
 gamedb = db['GameData']
-game_json = flask.jsonify(game)
+game_json = Flask.jsonify(game)
 print(SEED_DATA)
 print(game_json)
 gamedb.insert(game_json)
