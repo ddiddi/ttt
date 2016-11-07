@@ -109,7 +109,7 @@ class tictactoe:
 		return self.firstPlayerSymbol
 
 	def getSecondPlayerSymbol(self):
-		return self.SecondPlayerSymbol
+		return self.secondPlayerSymbol
 
 	def changeFirstPlayerSymbol(self, newValue):
 		self.firstPlayerSymbol = newValue
