@@ -208,13 +208,17 @@ def executeParams(text,user_name):
 		else:
 			if isValidUsername(subcommand[1:]):
 				game = tictactoe(user_name, subcommand[1:])
+				op1 = 'First Player : ' + game.getFirstPlayer() + game.getFirstPlayerSymbol()+'\n'
+				op2 = 'Second Player: ' + game.getSecondPlayer()+ game.getSecondPlayerSymbol()+'\n'
+				nextTurn = 'Turn: ' + game.getNextTurn()
+				return op1+op2+game.currentBoardString()+nextTurn
 			else:
 				return "Seems like this user is not in this channel"
 	
 	elif subcommand == 'ls' and commandValue == '':
 		if game.getGameStatus():
-			op1 = 'First Player : ' + game.getFirstPlayer() +'\n'
-			op2 = 'Second Player: ' + game.getSecondPlayer()+'\n'
+			op1 = 'First Player : ' + game.getFirstPlayer() + game.getFirstPlayerSymbol()+'\n'
+			op2 = 'Second Player: ' + game.getSecondPlayer()+ game.getSecondPlayerSymbol()+'\n'
 			nextTurn = 'Turn: ' + game.getNextTurn()
 			return op1+op2+game.currentBoardString()+nextTurn
 		else:
