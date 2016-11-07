@@ -10,10 +10,10 @@ class tictactoe:
 	firstPlayerSymbol = 'X'
 	secondPlayerSymbol = 'O'
 
-	def __init__(self, firstPlayer=None, secondPlayer=None):
+	def __init__(self, firstPlayer=None, secondPlayer=None,gameStatus=True):
 		self.firstPlayer = firstPlayer
 		self.secondPlayer = secondPlayer
-		changeGameStatus(True)
+		self.gameOn = gameStatus
 
 	def peekBoardValue(self, position):
 		idx = getBoardIndex(position) 
@@ -49,10 +49,10 @@ class tictactoe:
 
 	def currentBoardString(self):
 		header = '    1   2   3  \n'
-		topLine = 'a | '+boardValues[0]+' | '+boardValues[1]+' | '+boardValues[2]+' |\n'
+		topLine = 'a | '+self.boardValues[0]+' | '+self.boardValues[1]+' | '+self.boardValues[2]+' |\n'
 		breakLine = ' |---+---+---|\n'
-		middleLine = 'b | '+boardValues[3]+' | '+boardValues[4]+' | '+boardValues[5]+' |\n'
-		bottomLine = 'c | '+boardValues[6]+' | '+boardValues[7]+' | '+boardValues[8]+' |\n'
+		middleLine = 'b | '+self.boardValues[3]+' | '+self.boardValues[4]+' | '+self.boardValues[5]+' |\n'
+		bottomLine = 'c | '+self.boardValues[6]+' | '+self.boardValues[7]+' | '+self.boardValues[8]+' |\n'
 		return header+topLine+breakLine+middleLine+breakLine+bottomLine
 
 	def getFirstPlayer(self):
@@ -113,9 +113,10 @@ def game():
 	channel_name = request.form['channel_name']
 	text = request.form['text']
 	user_name = request.form['user_name']
-	return executeParams(request.form())
+	return executeParams(request.form()),200
 	#print user_name
 	#return '| X | 0 | 0 |\n|---+---+---|\n| X | 0 | 0 |\n|---+---+---|\n| X | 0 | 0 |',200
+
 
 
 def executeParams(input_command_form):
@@ -124,7 +125,16 @@ def executeParams(input_command_form):
 	subcommand = params[0]
 	commandValue = params[1]
 
-	if subcommand[0] == '@' and isValidUsername(subcommand[1:])
+	if subcommand[0] == '@' and isValidUsername(subcommand[1:]):
+		game = tictactoe(input_command_form['user_name'], subcommand[1:])
+
+	return game.currentBoardString()
+
+
+def isValidUsername(username):
+	return True
+
 if __name__ == "__main__":
     app.run()
+    game = tictactoe(None, None. False)
 
