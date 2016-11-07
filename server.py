@@ -167,7 +167,7 @@ def game():
 
 
 
-def executeParams(text,user_name, channel_id):
+def executeParams(text,user_name, channel_id, user_id):
 	"""query = {'song': 'One Sweet Day'}
 
 	songs.update(query, {'$set': {'artist': 'Mariah Carey ft. Boyz II Men'}})
@@ -206,7 +206,7 @@ def executeParams(text,user_name, channel_id):
 		if game.getGameStatus():
 			return "A ttt game is already on.\n Use /ttt help to know more."
 		else:
-			if isValidUsername(subcommand[1:], channel_id):
+			if isValidUsername(subcommand[1:], channel_id, user_id):
 				game = tictactoe(user_name, subcommand[1:])
 				oop1 = 'First Player : ' + user_name + game.getFirstPlayerSymbol()+'\n'
 				oop2 = 'Second Player: ' + subcommand[1:]+ game.getSecondPlayerSymbol()+'\n'
@@ -246,12 +246,14 @@ def executeParams(text,user_name, channel_id):
 	return "Never Executes"
 
 
-def isValidUsername(username, channel_id):
+def isValidUsername(username, channel_id, user_id):
 	print("asdddddddd")
 	response = sc.api_call("channels.info",channel=channel_id)
 	print(response)
 	print(response['channel']['members'])
-	return True
+	if user_id in response['channel']['members']:
+		return True
+	return False
 
 if __name__ == "__main__":
     app.run()
