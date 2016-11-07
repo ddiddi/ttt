@@ -172,11 +172,11 @@ def executeParams(text,user_name):
 	"""
 	global game 	
 	print("ASDDDDDDDDD")
-	board_json = [ { "a1":game.peekBoardValue('a1'), "a2":game.peekBoardValue('a2'), "a3":game.peekBoardValue('a3'), }]
+	board_json = [ { 'a1':game.peekBoardValue('a1'), 'a2':game.peekBoardValue('a2'), 'a3':game.peekBoardValue('a3'), }]
 	game_json = json.dumps(board_json)
 	print(SEED_DATA)
 	print(game_json)
-	gamedb.insert(game_json)
+	gamedb.insert(SEED_DATA)
 
 	print("ASDDDDDDDDDwsss")
 	db.drop_collection('gamedb')
