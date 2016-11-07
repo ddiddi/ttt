@@ -4,7 +4,8 @@ app = Flask(__name__)
 
 @app.route("/",methods=['POST'])
 def game():
-	return request.get_json(force=True),200
+	input_json = request.get_json(force=True)
+	return str(input_json),200
 #    return 'Test',200
 
 if __name__ == "__main__":
