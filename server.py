@@ -247,8 +247,9 @@ def executeParams(text,user_name, channel_id):
 
 
 def isValidUsername(username, channel_id):
+	print("asdddddddd")
 	response = sc.api_call("channels.info",channel=channel_id)
-	print response
+	print(response)
 	return True
 
 if __name__ == "__main__":
