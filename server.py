@@ -55,6 +55,12 @@ class tictactoe:
 			return 0
 		return -1
 
+	def getGameStatus(self):
+		return self.gameOn
+
+	def changeGameStatus(self, newValue):
+		self.gameOn = newValue
+
 	def getBoardIndex(self, position):
 		return {
 			'a1':0,
@@ -171,7 +177,8 @@ def executeParams(text,user_name):
 		print ('In the %s, %s by %s topped the charts for %d straight weeks.' % (doc['decade'], doc['song'], doc['artist'], doc['weeksAtOne']))
 	"""
 	global game 	
-	print("ASDDDDDDDDD")
+	
+	"""print("ASDDDDDDDDD")
 	board_json = [ { 'a1':game.peekBoardValue('a1'), 'a2':game.peekBoardValue('a2'), 'a3':game.peekBoardValue('a3'), }]
 	game_json = json.dumps(board_json)
 	print(SEED_DATA)
@@ -181,27 +188,49 @@ def executeParams(text,user_name):
 	cursor = gamedb.find_one()
 	print("ASDDDDDDDDDwsss")
 	print(cursor)
+	"""
 	db.drop_collection('gamedb')
 	client.close()
 
-	print("ASDDDDDDDDDssssssssssss")
+
+
 	params = str(text).split(" ")
-	subcommand = 'help'
 	commandValue = ''
 	subcommand = params[0]
 	if len(params)>1:
 		commandValue = params[1]
 	
-	if subcommand[0] == '@' and isValidUsername(subcommand[1:]):
-		game = tictactoe(user_name, subcommand[1:])
+	if subcommand[0] == '@' and isValidUsername(subcommand[1:]) and commandValue == '':
+		if game.getGameStatus():
+			return "A ttt game is already on.\n Use \/ttt help to know more."
+		else:
+			if isValidUsername(subcommand[1:]):
+				game = tictactoe(user_name, subcommand[1:])
+			else:
+				return "Seems like this user is not in this channel"
 	
-	if subcommand == 'put':
-		m = game.changeBoardValue(commandValue,game.getFirstPlayerSymbol())
-	
-	if subcommand == 'help':
-		return "These are valid"
+	elif subcommand == 'ls' and commandValue == '':
+		op1 = 'First Player : ' + game.getFirstPlayer() +'\n'
+		op2 = 'Second Player: ' + game.getSecondPlayer()+'\n'
+		nextTurn = 'Turn: ' + game.getNextTurn()
+		return op1+op2+game.currentBoardString()+nextTurn
 
-	return game.currentBoardString()
+	elif subcommand == 'put':
+		m = game.changeBoardValue(commandValue,game.getFirstPlayerSymbol())
+		op1 = 'First Player : ' + game.getFirstPlayer() +'\n'
+		op2 = 'Second Player: ' + game.getSecondPlayer()+'\n'
+		nextTurn = 'Turn: ' + game.getNextTurn()
+		return op1+op2+game.currentBoardString()+nextTurn
+	
+	elif subcommand == 'help':
+		return ("\/ttt ls: To see an ongoing game\n 
+				 \/ttt @<username>: To challenge someone in the channel \n
+				 \/ttt put <row alphabet><column number>: To put a mark at the position \n
+				 \/ttt help: To see this menu again")
+	else:
+		return "Sorry, that doesn't seem like a valid command. \n Use \/ttt help to know more"
+
+	return "Never Executes"
 
 
 def isValidUsername(username):
