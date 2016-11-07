@@ -113,6 +113,7 @@ def game():
 	channel_name = request.form['channel_name']
 	text = request.form['text']
 	user_name = request.form['user_name']
+	print("****Logging*****In main function before exit")
 	return executeParams(text),200
 	#print user_name
 	#return '| X | 0 | 0 |\n|---+---+---|\n| X | 0 | 0 |\n|---+---+---|\n| X | 0 | 0 |',200
