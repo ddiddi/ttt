@@ -107,10 +107,14 @@ class tictactoe:
 			return getSecondPlayer()
 		return -1
 
+	def getNextTurn(self):
+		return self.nextTurn
+
 	def changeNextTurn(self):
-		if nextTurn == firstPlayer:
-			nextTurn = secondPlayer
-		nextTurn == firstPlayer
+		if self.nextTurn == self.firstPlayer:
+			self.nextTurn = self.secondPlayer
+		self.nextTurn == self.firstPlayer
+
 
 @app.route("/",methods=['POST','GET'])
 def game():
