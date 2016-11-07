@@ -212,8 +212,11 @@ def executeParams(text,user_name):
 				print("working here 3")
 				oop1 = 'First Player : ' + user_name + game.getFirstPlayerSymbol()+'\n'
 				print("working here 4")
+				print(subcommand[1:])
+				print(game.getSecondPlayerSymbol())
 				oop2 = 'Second Player: ' + subcommand[1:]+ game.getSecondPlayerSymbol()+'\n'
 				print("working here 5")
+				print(oop2)
 				nnextTurn = 'Turn: ' + game.getNextTurn()
 				print("working here 2")
 				return oop1+oop2+game.currentBoardString()+nnextTurn
