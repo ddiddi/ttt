@@ -167,16 +167,14 @@ def executeParams(text,user_name):
 	songs.insert(SEED_DATA)
 	query = {'song': 'One Sweet Day'}
 
-    songs.update(query, {'$set': {'artist': 'Mariah Carey ft. Boyz II Men'}})
-    cursor = songs.find({'weeksAtOne': {'$gte': 10}}).sort('decade', 1)
+	songs.update(query, {'$set': {'artist': 'Mariah Carey ft. Boyz II Men'}})
+	cursor = songs.find({'weeksAtOne': {'$gte': 10}}).sort('decade', 1)
 
-    for doc in cursor:
-        print ('In the %s, %s by %s topped the charts for %d straight weeks.' %
-               (doc['decade'], doc['song'], doc['artist'], doc['weeksAtOne']))
+	for doc in cursor:
+		print ('In the %s, %s by %s topped the charts for %d straight weeks.' % (doc['decade'], doc['song'], doc['artist'], doc['weeksAtOne']))
 
-    db.drop_collection('songs')
-
-    client.close()
+	db.drop_collection('songs')
+	client.close()
 
 	params = str(text).split(" ")
 	subcommand = 'help'
