@@ -123,13 +123,19 @@ def game():
 def executeParams(text,user_name):
 	print("****Logging*****In executeParams")
 	params = str(text).split(" ")
+	print("****Logging*****In executeParams 126")
 	subcommand = 'help'
+	print("****Logging*****In executeParams 128")
 	commandValue = ''
+	print("****Logging*****In executeParams 130")
 	if params[0]:
+		print("****Logging*****In executeParams 132")
 		subcommand = params[0]
 	if params[1]:	
+		print("****Logging*****In executeParams 135")
 		commandValue = params[1]
 
+	print("****Logging*****In executeParams 138")
 	if subcommand[0] == '@' and isValidUsername(subcommand[1:]):
 		print("****Logging*****In If Condition")
 		global game 
@@ -137,7 +143,7 @@ def executeParams(text,user_name):
 
 	if subcommand == 'help':
 		return "These are valid"
-	
+
 	print("****Logging*****In executeParams before exit")
 	return game.currentBoardString()
 
