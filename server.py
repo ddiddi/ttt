@@ -199,12 +199,13 @@ def isValidUsername(username):
 if __name__ == "__main__":
     app.run()
 
-with app.app_context():
-	game = tictactoe(None, None, False)
-	client = pymongo.MongoClient(MONGODB_URI)
-	db = client.get_default_database()
-	gamedb = db['GameData']
-	game_json = jsonify(game)
-	print(SEED_DATA)
-	print(game_json)
-	gamedb.insert(game_json)
+
+game = tictactoe(None, None, False)
+
+client = pymongo.MongoClient(MONGODB_URI)
+db = client.get_default_database()
+gamedb = db['GameData']
+game_json = flask.jsonify(game)
+print(SEED_DATA)
+print(game_json)
+gamedb.insert(game_json)
