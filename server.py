@@ -198,6 +198,8 @@ def isValidUsername(username):
 
 if __name__ == "__main__":
     app.run()
+
+with app.app_context():
 	game = tictactoe(None, None, False)
 	client = pymongo.MongoClient(MONGODB_URI)
 	db = client.get_default_database()
