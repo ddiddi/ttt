@@ -1,6 +1,7 @@
 from flask import Flask, request
 import json
 import pymongo
+from slackclient import SlackClient
 
 SEED_DATA = [
     {
@@ -166,7 +167,7 @@ def game():
 
 
 
-def executeParams(text,user_name):
+def executeParams(text,user_name, channel_id):
 	"""query = {'song': 'One Sweet Day'}
 
 	songs.update(query, {'$set': {'artist': 'Mariah Carey ft. Boyz II Men'}})
@@ -205,7 +206,7 @@ def executeParams(text,user_name):
 		if game.getGameStatus():
 			return "A ttt game is already on.\n Use /ttt help to know more."
 		else:
-			if isValidUsername(subcommand[1:]):
+			if isValidUsername(subcommand[1:], channel_id):
 				game = tictactoe(user_name, subcommand[1:])
 				oop1 = 'First Player : ' + user_name + game.getFirstPlayerSymbol()+'\n'
 				oop2 = 'Second Player: ' + subcommand[1:]+ game.getSecondPlayerSymbol()+'\n'
@@ -245,7 +246,9 @@ def executeParams(text,user_name):
 	return "Never Executes"
 
 
-def isValidUsername(username):
+def isValidUsername(username, channel_id):
+	response = sc.api_call("channels.info",channel=channel_id)
+	print response
 	return True
 
 if __name__ == "__main__":
@@ -254,6 +257,7 @@ if __name__ == "__main__":
 
 game = tictactoe(None, None, False)
 
+sc = SlackClient('xoxp-98588410882-98566920132-101647984725-1587c9429306264be388b906421cf154')
 client = pymongo.MongoClient(MONGODB_URI)
 db = client.get_default_database()
 gamedb = db['gamedb']
