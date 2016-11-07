@@ -122,15 +122,22 @@ def game():
 
 def executeParams(text,user_name):
 	print("****Logging*****In executeParams")
-	params = text.split(" ")
-	subcommand = params[0]
-	commandValue = params[1]
+	params = str(text).split(" ")
+	subcommand = 'help'
+	commandValue = ''
+	if params[0]:
+		subcommand = params[0]
+	if params[1]:	
+		commandValue = params[1]
 
 	if subcommand[0] == '@' and isValidUsername(subcommand[1:]):
 		print("****Logging*****In If Condition")
 		global game 
 		game = tictactoe(user_name, subcommand[1:])
 
+	if subcommand == 'help':
+		return "These are valid"
+	
 	print("****Logging*****In executeParams before exit")
 	return game.currentBoardString()
 
