@@ -125,7 +125,7 @@ def executeParams(text):
 	commandValue = params[1]
 
 	if subcommand[0] == '@' and isValidUsername(subcommand[1:]):
-		game = tictactoe(input_command_form['user_name'], subcommand[1:])
+		global game = tictactoe(input_command_form['user_name'], subcommand[1:])
 
 	return game.currentBoardString()
 
@@ -135,5 +135,6 @@ def isValidUsername(username):
 
 if __name__ == "__main__":
     app.run()
-    game = tictactoe(None, None. False)
+
+game = tictactoe(None, None. False)
 
