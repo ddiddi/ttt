@@ -210,9 +210,9 @@ def executeParams(text,user_name):
 				print("working here")
 				game = tictactoe(user_name, subcommand[1:])
 				print("working here 3")
-				oop1 = 'First Player : ' + game.getFirstPlayer() + game.getFirstPlayerSymbol()+'\n'
+				oop1 = 'First Player : ' + user_name + game.getFirstPlayerSymbol()+'\n'
 				print("working here 4")
-				oop2 = 'Second Player: ' + game.getSecondPlayer()+ game.getSecondPlayerSymbol()+'\n'
+				oop2 = 'Second Player: ' + subcommand[1:]+ game.getSecondPlayerSymbol()+'\n'
 				print("working here 5")
 				nnextTurn = 'Turn: ' + game.getNextTurn()
 				print("working here 2")
