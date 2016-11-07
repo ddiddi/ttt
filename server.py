@@ -122,7 +122,6 @@ def game():
 
 def executeParams(text,user_name):
 	print("****Logging*****In executeParams")
-	params = []
 	params = str(text).split(" ")
 	print("****Logging*****In executeParams 126")
 	print(params)
@@ -130,10 +129,9 @@ def executeParams(text,user_name):
 	print("****Logging*****In executeParams 128")
 	commandValue = ''
 	print("****Logging*****In executeParams 130")
-	if params[0]:
-		print("****Logging*****In executeParams 132")
-		subcommand = params[0]
-	if params[1]:	
+	print("****Logging*****In executeParams 132")
+	subcommand = params[0]
+	if len(params)>1:	
 		print("****Logging*****In executeParams 135")
 		commandValue = params[1]
 
