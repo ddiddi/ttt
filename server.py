@@ -207,6 +207,7 @@ def executeParams(text,user_name, channel_id, user_id):
 		if cursor['gameOn'] == True:
 			return "A ttt game is already on.\n Use /ttt help to know more."
 		else:
+			print("Inside Valid Username before")
 			if isValidUsername(subcommand[1:], channel_id, user_id):
 				print("Inside Valid Username")
 				board_json = [ { 'a1':cursor['a1'], 'a2':cursor['a2'], 'a3':cursor['a3'], 'b1':cursor['b1'], 'b2':cursor['b2'], 'b3':cursor['b3'],'c1':cursor['c1'],'c2':cursor['c2'],'c3':cursor['c3'], 'first':user_name, 'second':subcommand[1:], 'firstS':cursor['firstS'], 'secondS':cursor['secondS'], 'gameOn':True, 'next':cursor['next'] }]
