@@ -228,7 +228,7 @@ def isValidUsername(username, channel_id, user_id):
 	return False
 
 if __name__ == "__main__":
-    app.run()
+    app.run(host = '0.0.0.0', port = 8000)
 
 
 game = tictactoe(None, None, False)
