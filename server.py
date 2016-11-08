@@ -54,8 +54,7 @@ class tictactoe:
 		self.changeNextTurn()
 		if i != -1:
 			self.boardValues[i] = newValue
-			return 0
-		return -1
+		return boardValues
 
 	def clearBoard(self):
 		self.boardValues = ['-','-','-','-','-','-','-','-','-']
@@ -138,13 +137,10 @@ class tictactoe:
 			return getSecondPlayer()
 		return -1
 
-	def getNextTurn(self):
-		return self.nextTurn
-
-	def changeNextTurn(self):
-		if self.nextTurn == self.firstPlayer:
-			self.nextTurn = self.secondPlayer
-		self.nextTurn == self.firstPlayer
+def getNextTurn(self, input):
+	if input == self.firstPlayer:
+		return self.secondPlayer
+	return self.firstPlayer
 
 
 @app.route("/",methods=['POST','GET'])
@@ -202,15 +198,19 @@ def executeParams(text,user_name, channel_id, user_id):
 	print("Here 2")
 	print(subcommand)
 	print(commandValue)
+	cursor = gamedb.find_one()
 	if subcommand[0] == '@' and commandValue == '':
-		if game.getGameStatus():
+		if cursor['gameOn']:
 			return "A ttt game is already on.\n Use /ttt help to know more."
 		else:
 			if isValidUsername(subcommand[1:], channel_id, user_id):
+				board_json = [ { 'a1':cursor['a1'], 'a2':cursor['a2'], 'a3':cursor['a3'], 'b1':cursor['b1'], 'b2':cursor['b2'], 'b3':cursor['b3'],'c1':cursor['c1'],'c2':cursor['c2'],'c3':cursor['c3'], 'first':user_name, 'second':subcommand[1:], 'firstS':cursor['firstS'], 'secondS':cursor['secondS'], 'gameOn':True, 'next':cursor['next'] }]
+				gamedb.insert(board_json)
 				game = tictactoe(user_name, subcommand[1:])
-				oop1 = 'First Player : ' + user_name + game.getFirstPlayerSymbol()+'\n'
-				oop2 = 'Second Player: ' + subcommand[1:]+ game.getSecondPlayerSymbol()+'\n'
-				nnextTurn = 'Turn: ' + game.getNextTurn()
+
+				oop1 = 'First Player : ' + user_name + cursor['firstS]+'\n'
+				oop2 = 'Second Player: ' + subcommand[1:]+ cursor['secondS']+'\n'
+				nnextTurn = 'Turn: ' + cursor['next']
 				return oop1+oop2+game.currentBoardString()+nnextTurn
 			else:
 				return "Seems like this user is not in this channel"
@@ -219,7 +219,7 @@ def executeParams(text,user_name, channel_id, user_id):
 		if game.getGameStatus():
 			op1 = 'First Player : ' + user_name + game.getFirstPlayerSymbol()+'\n'
 			op2 = 'Second Player: ' + subcommand[1:]+ game.getSecondPlayerSymbol()+'\n'
-			nextTurn = 'Turn: ' + game.getNextTurn()
+			nextTurn = 'Turn: ' + cursor['next']
 			print("working here 2")
 			return op1+op2+game.currentBoardString()+nextTurn
 		else:
@@ -227,16 +227,17 @@ def executeParams(text,user_name, channel_id, user_id):
 
 	elif subcommand == 'put':
 		print("asdasdasd")
-		m = game.changeBoardValue(commandValue,game.getFirstPlayerSymbol())
-		print("asdasdasd 2")
-		pnextTurn = 'Turn: ' + game.getNextTurn()
-		print("asdasdasd 3")
-		end = checkGameEndCondition()
-		if end == -1:
-			return game.currentBoardString()+pnextTurn
-		else:
-			game = tictactoe(None, None, False)
-			return "The Winner is " + end
+		if cursor['next'] == user_name:		
+			a = game.changeBoardValue(commandValue,game.getFirstPlayerSymbol())
+			pnextTurn = 'Turn: ' + getNextTurn(cursor['next'])
+			board_json = [ { 'a1':a[0], 'a2':a[1], 'a3':a[2], 'b1':a[3], 'b2':a[4], 'b3':a[5],'c1':a[6],'c2':a[7],'c3':a[8], 'first':user_name, 'second':cursor['second'], 'firstS':cursor['firstS'], 'secondS':cursor['secondS'], 'gameOn':True, 'next':pnextTurn }]
+			gamedb.insert(board_json)
+			end = checkGameEndCondition()
+			if end == -1:
+				return game.currentBoardString()+pnextTurn
+			else:
+				game = tictactoe(None, None, False)
+				return "The Winner is " + end
 	
 	elif subcommand == 'help':
 		return ("/ttt ls: To see an ongoing game\n /ttt @<username>: To challenge someone in the channel \n/ttt put <row alphabet><column number>: To put a mark at the position \n/ttt help: To see this menu again")
@@ -267,3 +268,5 @@ print("mmmmmmmmm2")
 client = pymongo.MongoClient(MONGODB_URI)
 db = client.get_default_database()
 gamedb = db['gamedb']
+board_json = [ { 'a1':game.peekBoardValue('a1'), 'a2':game.peekBoardValue('a2'), 'a3':game.peekBoardValue('a3'), 'b1':game.peekBoardValue('b1'), 'b2':game.peekBoardValue('b2'), 'b3':game.peekBoardValue('b3'),'c1':game.peekBoardValue('c1'),'c2':game.peekBoardValue('c2'),'c3':game.peekBoardValue('c3'), 'first':game.getFirstPlayer(), 'second':game.getSecondPlayer(), 'firstS':game.getFirstPlayerSymbol(), 'secondS':game.getSecondPlayerSymbol(), 'gameOn':game.getGameStatus(), 'next':game.getFirstPlayer() }]
+gamedb.insert(board_json)
