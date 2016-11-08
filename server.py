@@ -263,7 +263,8 @@ def createListResponseString():
 	global game
 	if game.getGameStatus():
 		outputString = createGameListResponse()
-	outputString = createNoGameListResponse()
+	else:
+		outputString = createNoGameListResponse()
 	return outputString
 
 def createGameListResponse():
