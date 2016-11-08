@@ -158,7 +158,7 @@ def executeParams(text,user_name, channel_id, user_id):
 
 	if subcommand[0] == '@' and commandValue == '':
 		print("Inside subs")
-		if cursor['gameOn'] == True:
+		if intro['gameOn'] == True:
 			return "A ttt game is already on.\n Use /ttt help to know more."
 		else:
 			print("Inside Valid Username before")
@@ -167,16 +167,13 @@ def executeParams(text,user_name, channel_id, user_id):
 				board_json = { 'a1':cursor['a1'], 'a2':cursor['a2'], 'a3':cursor['a3'], 'b1':cursor['b1'], 'b2':cursor['b2'], 'b3':cursor['b3'],'c1':cursor['c1'],'c2':cursor['c2'],'c3':cursor['c3'], 'first':user_name, 'second':subcommand[1:], 'firstS':cursor['firstS'], 'secondS':cursor['secondS'], 'gameOn':True, 'next':user_name }
 				print("Inside Valid Username 2")
 				print("asdddd")
-				a = db.test.update_one({'id':0}, {"$inc": board_json})
-				print(a)
-				print("Inside Valid Username 3")
-				cursor = db.test.find_one()
+				firebase.put('/game', 'master', board_json)
 				print("Inside Valid Username 4")
 				game = tictactoe(user_name, subcommand[1:])
 				print("Inside Valid Username 5")
-				oop1 = 'First Player : ' + user_name + cursor['firstS']+'\n'
+				oop1 = 'First Player : ' + user_name + intro['firstS']+'\n'
 				print("Inside Valid Username 6")
-				oop2 = 'Second Player: ' + subcommand[1:]+ cursor['secondS']+'\n'
+				oop2 = 'Second Player: ' + subcommand[1:]+ intro['secondS']+'\n'
 				print("Inside Valid Username 7")
 				nnextTurn = 'Turn: ' + user_name
 				print("Inside Valid Username 8")
@@ -189,7 +186,7 @@ def executeParams(text,user_name, channel_id, user_id):
 		if game.getGameStatus():
 			op1 = 'First Player : ' + user_name + game.getFirstPlayerSymbol()+'\n'
 			op2 = 'Second Player: ' + subcommand[1:]+ game.getSecondPlayerSymbol()+'\n'
-			nextTurn = 'Turn: ' + cursor['next']
+			nextTurn = 'Turn: ' + intro['next']
 			print("working here 2")
 			return op1+op2+game.currentBoardString()+nextTurn
 		else:
@@ -197,12 +194,11 @@ def executeParams(text,user_name, channel_id, user_id):
 
 	elif subcommand == 'put':
 		print("asdasdasd")
-		if cursor['next'] == user_name:		
+		if intro['next'] == user_name:		
 			a = game.changeBoardValue(commandValue,game.getFirstPlayerSymbol())
-			pnextTurn = 'Turn: ' + getNextTurn(cursor['next'])
+			pnextTurn = 'Turn: ' + getNextTurn(intro['next'])
 			board_json = { 'a1':a[0], 'a2':a[1], 'a3':a[2], 'b1':a[3], 'b2':a[4], 'b3':a[5],'c1':a[6],'c2':a[7],'c3':a[8], 'first':user_name, 'second':cursor['second'], 'firstS':cursor['firstS'], 'secondS':cursor['secondS'], 'gameOn':True, 'next':pnextTurn }
-			db.test.update_one({'id':0}, {"$set": board_json})
-			cursor = db.test.find_one({'id':0})
+			firebase.put('/game', 'master', board_json)
 			end = checkGameEndCondition()
 			if end == -1:
 				return game.currentBoardString()+pnextTurn
