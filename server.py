@@ -254,12 +254,19 @@ def createListResponseString():
 	return outputString
 
 def createGameListResponse():
+	print("gamelist")
 	global game
+	print("gamelist1")
 	firstPlayerString = 'First Player : ' + game.getFirstPlayer() +' '+ getFirstPlayerSymbol() 
+	print("gamelist2")
 	secondPlayerString = 'Second Player : '+ game.getSecondPlayer() +' '+ getSecondPlayerSymbol()
+	print("gamelist3")
 	gameString = game.getBoard()
+	print("gamelist4")
 	nextTurnString = 'Turn: ' + game.getNextTurn()
+	print("gamelist5")
 	outputString = firstPlayerString + secondPlayerString + gameString + nextTurnString
+	print(outputString)
 	return outputString
 
 def createNoGameListResponse():
