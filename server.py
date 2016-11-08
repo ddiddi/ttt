@@ -208,7 +208,7 @@ def executeParams(text,user_name, channel_id, user_id):
 				gamedb.insert(board_json)
 				game = tictactoe(user_name, subcommand[1:])
 
-				oop1 = 'First Player : ' + user_name + cursor['firstS]+'\n'
+				oop1 = 'First Player : ' + user_name + cursor['firstS']+'\n'
 				oop2 = 'Second Player: ' + subcommand[1:]+ cursor['secondS']+'\n'
 				nnextTurn = 'Turn: ' + cursor['next']
 				return oop1+oop2+game.currentBoardString()+nnextTurn
