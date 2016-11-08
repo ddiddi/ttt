@@ -173,6 +173,7 @@ def executeParams(text,user_name, channel_id, user_id):
 		print ('In the %s, %s by %s topped the charts for %d straight weeks.' % (doc['decade'], doc['song'], doc['artist'], doc['weeksAtOne']))
 	"""
 	global game 	
+	global cursor
 	print("Here 1")
 	"""print("ASDDDDDDDDD")
 	board_json = [ { 'a1':game.peekBoardValue('a1'), 'a2':game.peekBoardValue('a2'), 'a3':game.peekBoardValue('a3'), }]
@@ -198,7 +199,7 @@ def executeParams(text,user_name, channel_id, user_id):
 	print("Here 2")
 	print(subcommand)
 	print(commandValue)
-	cursor = gamedb.find_one()
+	#cursor = gamedb.find_one()
 	print("Here 3")
 	print(cursor)
 
@@ -209,6 +210,7 @@ def executeParams(text,user_name, channel_id, user_id):
 			if isValidUsername(subcommand[1:], channel_id, user_id):
 				board_json = [ { 'a1':cursor['a1'], 'a2':cursor['a2'], 'a3':cursor['a3'], 'b1':cursor['b1'], 'b2':cursor['b2'], 'b3':cursor['b3'],'c1':cursor['c1'],'c2':cursor['c2'],'c3':cursor['c3'], 'first':user_name, 'second':subcommand[1:], 'firstS':cursor['firstS'], 'secondS':cursor['secondS'], 'gameOn':True, 'next':cursor['next'] }]
 				gamedb.insert(board_json)
+				cursor = gamedb.find_one()
 				game = tictactoe(user_name, subcommand[1:])
 
 				oop1 = 'First Player : ' + user_name + cursor['firstS']+'\n'
@@ -235,6 +237,7 @@ def executeParams(text,user_name, channel_id, user_id):
 			pnextTurn = 'Turn: ' + getNextTurn(cursor['next'])
 			board_json = [ { 'a1':a[0], 'a2':a[1], 'a3':a[2], 'b1':a[3], 'b2':a[4], 'b3':a[5],'c1':a[6],'c2':a[7],'c3':a[8], 'first':user_name, 'second':cursor['second'], 'firstS':cursor['firstS'], 'secondS':cursor['secondS'], 'gameOn':True, 'next':pnextTurn }]
 			gamedb.insert(board_json)
+			cursor = gamedb.find_one()
 			end = checkGameEndCondition()
 			if end == -1:
 				return game.currentBoardString()+pnextTurn
