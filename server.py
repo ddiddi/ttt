@@ -163,8 +163,11 @@ def executeParams(text,user_name, channel_id, user_id):
 	commandValue = ''
 	if len(params)>1:
 		commandValue = params[1]
+	
 	if params[0] == '':
 		subcommand = 'help'
+	else:
+		subcommand = params[0]
 
 	if subcommand[0] == '@' and commandValue == '':
 		if game.getGameStatus():
