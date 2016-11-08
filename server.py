@@ -28,7 +28,6 @@ class tictactoe:
 
 	def changeBoardValue(self, position, newValue):
 		i = self.getBoardIndex(position)
-		self.changeNextTurn()
 		if i != -1:
 			self.boardValues[i] = newValue
 		return boardValues
@@ -199,7 +198,7 @@ def executeParams(text,user_name, channel_id, user_id):
 		print(everything)
 		if everything['next'] == user_name:	
 			print("ajsdk,asjd,")	
-			a = game.changeBoardValue(commandValue,game.getFirstPlayerSymbol())
+			a = game.changeBoardValue(commandValue, 'X')
 			print("asdasdasdd////////d")
 			pnextTurn = 'Turn: ' + game.getNextTurn(everything['next'])
 			print("asdasdaddddsd")
