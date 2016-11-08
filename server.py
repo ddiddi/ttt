@@ -189,7 +189,7 @@ def executeParams(text,user_name, channel_id, user_id):
 	db.drop_collection('gamedb')
 	client.close()
 
-	cursor['first'] = 
+	
 	params = str(text).split(" ")
 	commandValue = ''
 	subcommand = params[0]
