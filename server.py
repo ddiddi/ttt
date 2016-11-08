@@ -34,7 +34,7 @@ class tictactoe:
 			print("Asaaaaaaadasddddddddddd")
 			self.boardValues[i] = newValue
 		print("Asdasdddddddddddd3333333333")
-		return boardValues
+		return self.boardValues
 
 	def clearBoard(self):
 		self.boardValues = ['-','-','-','-','-','-','-','-','-']
