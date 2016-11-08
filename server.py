@@ -264,8 +264,8 @@ def executeParams(text,user_name, channel_id, user_id):
 		return ("/ttt ls: To see an ongoing game\n /ttt @<username>: To challenge someone in the channel \n/ttt put <row alphabet><column number>: To put a mark at the position \n/ttt help: To see this menu again")
 	elif subcommand == 'clear':
 		db.drop_collection('gamedb')
-	    client.close()
-	    return "Remove from db"
+		client.close()
+		return "Remove from db"
 	else:
 		return "Sorry, that doesn't seem like a valid command. \n Use /ttt help to know more"
 
