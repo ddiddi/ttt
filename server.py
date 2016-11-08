@@ -203,6 +203,9 @@ def executeParams(text,user_name, channel_id, user_id):
 	print(cursor)
 	print ("Where")
 
+	if subcommand == '':
+		subcommand = 'help'
+
 	if subcommand[0] == '@' and commandValue == '':
 		print("Inside subs")
 		if cursor['gameOn'] == True:
