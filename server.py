@@ -156,7 +156,7 @@ def game():
 	channel_name = request.form['channel_name']
 	text = request.form['text']
 	user_name = request.form['user_name']
-	output = str(executeParams(text,user_name,channel_id))
+	output = str(executeParams(text,user_name,channel_id, user_id))
 	return output,200
 	#print user_name
 	#return '| X | 0 | 0 |\n|---+---+---|\n| X | 0 | 0 |\n|---+---+---|\n| X | 0 | 0 |',200
