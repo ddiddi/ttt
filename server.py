@@ -170,23 +170,36 @@ def executeParams(text,user_name, channel_id, user_id):
 		subcommand = params[0]
 
 	if subcommand[0] == '@' and commandValue == '':
+		print("Here")
 		if game.getGameStatus():
+			print("Here1")
 			return createGameYesResponse()
 		else:
-			if isValidUsername(subcommand[1:], channel_id, user_id):				
+			print("Here2")
+			if isValidUsername(subcommand[1:], channel_id, user_id):
+				print("Here3")				
 				game.changeFirstPlayer(user_name)
+				print("Here4")
 				game.changeSecondPlayer(subcommand[1:0])
+				print("Here5")
 				game.changeNextTurn(user_name)
+				print("Here6")
 				game.update()
+				print("Here7")
 				return createGameListResponse()
 			else:
+				print("Here8")
 				return createInvalidUserResponse()
 	
 	elif subcommand == 'ls' and commandValue == '':
 		return createListResponseString()
 
 	elif subcommand == 'put':
-		return createPutResponseString(user_name, commandValue)	
+		print("Here9")
+		if game.getGameStatus():
+			print("Here10")
+			return createPutResponseString(user_name, commandValue)
+		return createNoGameListResponse()
 
 	elif subcommand == 'help':
 		return createHelpResponseString() 
