@@ -217,7 +217,7 @@ def executeParams(text,user_name, channel_id, user_id):
 				print("Inside Valid Username")
 				board_json = [ { 'a1':cursor['a1'], 'a2':cursor['a2'], 'a3':cursor['a3'], 'b1':cursor['b1'], 'b2':cursor['b2'], 'b3':cursor['b3'],'c1':cursor['c1'],'c2':cursor['c2'],'c3':cursor['c3'], 'first':user_name, 'second':subcommand[1:], 'firstS':cursor['firstS'], 'secondS':cursor['secondS'], 'gameOn':True, 'next':user_name }]
 				print("Inside Valid Username 2")
-				gamedb.update({'id':0}, {"$set": board_json}, upsert=True)
+				gamedb.update({'id':0}, {"$set": board_json})
 				print("Inside Valid Username 3")
 				cursor = gamedb.find_one()
 				print("Inside Valid Username 4")
