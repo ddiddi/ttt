@@ -175,6 +175,7 @@ def executeParams(text,user_name, channel_id, user_id):
 	global game 	
 	global cursor
 	global mongo_id
+	global db.test
 	print("Here 1")
 	"""print("ASDDDDDDDDD")
 	board_json = [ { 'a1':game.peekBoardValue('a1'), 'a2':game.peekBoardValue('a2'), 'a3':game.peekBoardValue('a3'), }]
