@@ -137,10 +137,10 @@ class tictactoe:
 			return getSecondPlayer()
 		return -1
 
-def getNextTurn(self, input):
-	if input == self.firstPlayer:
+	def getNextTurn(self, input):
+		if input == self.secondPlayer or input == None:
+			return self.firstPlayer
 		return self.secondPlayer
-	return self.firstPlayer
 
 
 @app.route("/",methods=['POST','GET'])
@@ -222,7 +222,7 @@ def executeParams(text,user_name, channel_id, user_id):
 				print("Inside Valid Username 6")
 				oop2 = 'Second Player: ' + subcommand[1:]+ cursor['secondS']+'\n'
 				print("Inside Valid Username 7")
-				nnextTurn = 'Turn: ' + cursor['next']
+				nnextTurn = 'Turn: ' + user_name
 				print("Inside Valid Username 8")
 				return oop1+oop2+game.currentBoardString()+nnextTurn
 			else:
@@ -283,7 +283,7 @@ client = pymongo.MongoClient(MONGODB_URI)
 db = client.get_default_database()
 gamedb = db['gamedb']
 print("ASDDDDDDDDD11111")
-board_json = [ { 'a1':game.peekBoardValue('a1'), 'a2':game.peekBoardValue('a2'), 'a3':game.peekBoardValue('a3'), 'b1':game.peekBoardValue('b1'), 'b2':game.peekBoardValue('b2'), 'b3':game.peekBoardValue('b3'),'c1':game.peekBoardValue('c1'),'c2':game.peekBoardValue('c2'),'c3':game.peekBoardValue('c3'), 'first':game.getFirstPlayer(), 'second':game.getSecondPlayer(), 'firstS':game.getFirstPlayerSymbol(), 'secondS':game.getSecondPlayerSymbol(), 'gameOn':game.getGameStatus(), 'next':game.getFirstPlayer() }]
+board_json = [ { 'a1':game.peekBoardValue('a1'), 'a2':game.peekBoardValue('a2'), 'a3':game.peekBoardValue('a3'), 'b1':game.peekBoardValue('b1'), 'b2':game.peekBoardValue('b2'), 'b3':game.peekBoardValue('b3'),'c1':game.peekBoardValue('c1'),'c2':game.peekBoardValue('c2'),'c3':game.peekBoardValue('c3'), 'first':game.getFirstPlayer(), 'second':game.getSecondPlayer(), 'firstS':game.getFirstPlayerSymbol(), 'secondS':game.getSecondPlayerSymbol(), 'gameOn':game.getGameStatus(), 'next':game.getNextTurn() }]
 gamedb.insert(board_json)
 print("ASDDDDDDDDD22222")
 cursor = gamedb.find_one()
