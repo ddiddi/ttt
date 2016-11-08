@@ -199,6 +199,9 @@ def executeParams(text,user_name, channel_id, user_id):
 	print(subcommand)
 	print(commandValue)
 	cursor = gamedb.find_one()
+	print("Here 3")
+	print(cursor)
+
 	if subcommand[0] == '@' and commandValue == '':
 		if cursor['gameOn']:
 			return "A ttt game is already on.\n Use /ttt help to know more."
