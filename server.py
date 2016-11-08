@@ -209,7 +209,7 @@ def executeParams(text,user_name, channel_id, user_id):
 			board_json = { 'a1':a[0], 'a2':a[1], 'a3':a[2], 'b1':a[3], 'b2':a[4], 'b3':a[5],'c1':a[6],'c2':a[7],'c3':a[8], 'first':user_name, 'second':everything['second'], 'firstS':everything['firstS'], 'secondS':everything['secondS'], 'gameOn':True, 'next':pnextTurn }
 			print("asdasdasddddddddddddddddd")
 			firebase.put('/game', 'master', board_json)
-			end = checkGameEndCondition()
+			end = game.checkGameEndCondition()
 			if end == -1:
 				return game.currentBoardString()+pnextTurn
 			else:
