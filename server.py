@@ -96,7 +96,7 @@ class tictactoe:
 		return self.firstPlayer
 
 	def getSecondPlayer(self):
-		return self.SecondPlayer
+		return self.secondPlayer
 
 	def changeFirstPlayer(self, newValue):
 		self.firstPlayer = newValue
