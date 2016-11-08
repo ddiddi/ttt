@@ -27,9 +27,13 @@ class tictactoe:
 		return -1
 
 	def changeBoardValue(self, position, newValue):
+		print("Asdasddddddddddd")
 		i = self.getBoardIndex(position)
+		print("Asdssasddddddddddd")
 		if i != -1:
+			print("Asaaaaaaadasddddddddddd")
 			self.boardValues[i] = newValue
+		print("Asdasdddddddddddd3333333333")
 		return boardValues
 
 	def clearBoard(self):
