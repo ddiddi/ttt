@@ -196,6 +196,7 @@ def executeParams(text,user_name, channel_id, user_id):
 
 	elif subcommand == 'put':
 		print("asdasdasd")
+		print(everything)
 		if everything['next'] == user_name:	
 			print("ajsdk,asjd,")	
 			a = game.changeBoardValue(commandValue,game.getFirstPlayerSymbol())
@@ -211,6 +212,8 @@ def executeParams(text,user_name, channel_id, user_id):
 			else:
 				game = tictactoe(None, None, False)
 				return "The Winner is " + end
+		else:
+			return "Sorry but it doesn't seem like it's your turn"
 	
 	elif subcommand == 'help':
 		print ("Where 4")
