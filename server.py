@@ -189,8 +189,7 @@ def executeParams(text,user_name, channel_id, user_id):
 	db.drop_collection('gamedb')
 	client.close()
 
-
-
+	cursor['first'] = 
 	params = str(text).split(" ")
 	commandValue = ''
 	subcommand = params[0]
@@ -204,10 +203,12 @@ def executeParams(text,user_name, channel_id, user_id):
 	print(cursor)
 
 	if subcommand[0] == '@' and commandValue == '':
-		if cursor['gameOn']:
+		print("Inside subs")
+		if cursor['gameOn'] == True:
 			return "A ttt game is already on.\n Use /ttt help to know more."
 		else:
 			if isValidUsername(subcommand[1:], channel_id, user_id):
+				print("Inside Valid Username")
 				board_json = [ { 'a1':cursor['a1'], 'a2':cursor['a2'], 'a3':cursor['a3'], 'b1':cursor['b1'], 'b2':cursor['b2'], 'b3':cursor['b3'],'c1':cursor['c1'],'c2':cursor['c2'],'c3':cursor['c3'], 'first':user_name, 'second':subcommand[1:], 'firstS':cursor['firstS'], 'secondS':cursor['secondS'], 'gameOn':True, 'next':cursor['next'] }]
 				gamedb.insert(board_json)
 				cursor = gamedb.find_one()
