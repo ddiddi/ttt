@@ -270,9 +270,9 @@ def createGameListResponse():
 	print("gamelist")
 	global game
 	print("gamelist1")
-	firstPlayerString = 'First Player : ' + game.getFirstPlayer() +' '+ getFirstPlayerSymbol() 
+	firstPlayerString = 'First Player : ' + game.getFirstPlayer() +' '+ game.getFirstPlayerSymbol() 
 	print("gamelist2")
-	secondPlayerString = 'Second Player : '+ game.getSecondPlayer() +' '+ getSecondPlayerSymbol()
+	secondPlayerString = 'Second Player : '+ game.getSecondPlayer() +' '+ game.getSecondPlayerSymbol()
 	print("gamelist3")
 	gameString = game.getBoard()
 	print("gamelist4")
