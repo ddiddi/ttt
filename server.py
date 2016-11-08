@@ -149,8 +149,9 @@ def executeParams(text,user_name, channel_id, user_id):
 		commandValue = params[1]
 	print("Here 2")
 	
-	firebase = firebase.FirebaseApplication('https://sttt-52a44.firebaseio.com/', None)
-	intro = firebase.get('/game', None)
+	firebase2 = firebase.FirebaseApplication('https://sttt-52a44.firebaseio.com/', None)
+	print("Here 3")
+	intro = firebase2.get('/game', None)
 	print (intro)
 	if subcommand == '':
 		subcommand = 'help'
