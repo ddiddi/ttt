@@ -6,33 +6,53 @@ from firebase import firebase
 app = Flask(__name__)
 
 class tictactoe:
-	'Base class from Tic Tac Toe Game'
-	boardValues = ['-','-','-','-','-','-','-','-','-']
-	gameOn = False
-	firstPlayerSymbol = 'X'
-	secondPlayerSymbol = 'O'
-
 	def __init__(self, firstPlayer=None, secondPlayer=None,gameStatus=True):
-		self.firstPlayer = firstPlayer
-		self.secondPlayer = secondPlayer
-		self.gameOn = gameStatus
-		self.nextTurn = self.firstPlayer
-		self.clearBoard()
+		global firebase
+		self.firstPlayer = 'NOPLAYER'
+		self.secondPlayer = 'NOPLAYER'
+		self.firstPlayerSymbol = 'X'
+		self.secondPlayerSymbol = 'O'
+		self.gameOn = False
+		self.boardValues = ['-','-','-','-','-','-','-','-','-'] 
+		self.nextTurn = 'NOPLAYER'
+		json_format = self.serialize()
+		firebase.put('/game', 'master', json_format)
 
-	def peekBoardValue(self, position):
-		idx = self.getBoardIndex(position) 
-		if idx != -1:
-			return self.boardValues[idx]
-		return -1
+	def serialize(self):
+		return json.dumps(self, default=lambda o: o.__dict__)
+
+	def deserialize(self, json_input):
+		return json.loads(json_input)
+
+	def updateFromServer(self):
+		global firebase
+		data = firebase.get('/game', None)
+		dataValues = data['master']
+		self.firstPlayer = dataValues['firstPlayer']
+		self.secondPlayer = dataValues['secondPlayer']
+		self.firstPlayerSymbol = dataValues['firstPlayerSymbol']
+		self.secondPlayerSymbol = dataValues['secondPlayerSymbol']
+		self.gameOn = dataValues['gameOn']
+		self.boardValues = dataValues['boardValues'] 
+		self.nextTurn = dataValues['nextTurn']
+
+	def update(self):
+		global firebase
+		json_format = self.serialize()
+		firebase.put('/game','master',json_format)
+
+	def getSymbol(self, user):
+		if user == self.firstPlayer:
+			return self.firstPlayerSymbol
+		return self.secondPlayerSymbol
 
 	def changeBoardValue(self, position, newValue):
 		i = self.getBoardIndex(position)
 		if i != -1:
 			self.boardValues[i] = newValue
-		return self.boardValues
-
-	def clearBoard(self):
-		self.boardValues = ['-','-','-','-','-','-','-','-','-']
+			self.flipTurn()
+			self.update()
+		return "Invalid position"
 
 	def getGameStatus(self):
 		return self.gameOn
@@ -53,19 +73,13 @@ class tictactoe:
 			'c3':8,
 		}.get(position,-1)
 
-	def currentGameStatus(self):
-		return self.gameOn
-
-	def changeGameStatus(self, newValue):
-		self.gameOn = newValue
-
-	def currentBoardString(self):
-		header = '*1 2 3  \n'
-		topLine = 'a '+self.boardValues[0]+' '+self.boardValues[1]+' '+self.boardValues[2]+'\n'
-		middleLine = 'b '+self.boardValues[3]+' '+self.boardValues[4]+' '+self.boardValues[5]+'\n'
-		bottomLine = 'c '+self.boardValues[6]+' '+self.boardValues[7]+' '+self.boardValues[8]+'\n'
-		output = header+topLine+middleLine+bottomLine
-		return output
+	def getBoard(self):
+		headerString = '*1 2 3  \n'
+		topLineString = 'a '+self.boardValues[0]+' '+self.boardValues[1]+' '+self.boardValues[2]+'\n'
+		middleLineString = 'b '+self.boardValues[3]+' '+self.boardValues[4]+' '+self.boardValues[5]+'\n'
+		bottomLineString = 'c '+self.boardValues[6]+' '+self.boardValues[7]+' '+self.boardValues[8]+'\n'
+		outputString = headerString+topLineString+middleLineString+bottomLineString
+		return outputString
 
 	def getFirstPlayer(self):
 		return self.firstPlayer
@@ -112,11 +126,17 @@ class tictactoe:
 			return getSecondPlayer()
 		return -1
 
-	def getNextTurn(self, input):
-		if input == self.secondPlayer or input == None:
-			return self.firstPlayer
-		return self.secondPlayer
+	def getNextTurn(self):
+		return self.nextTurn
 
+	def changeNextTurn(self, newValue):
+		self.nextTurn = newValue
+
+	def flipTurn(self):
+		if self.nextTurn == self.firstPlayer:
+			self.nextTurn = self.secondPlayer
+		else:
+			self.nextTurn = self.firstPlayer
 
 @app.route("/",methods=['POST','GET'])
 def game():
@@ -137,8 +157,6 @@ def game():
 
 def executeParams(text,user_name, channel_id, user_id):
 	global game 	
-	global firebase
-
 
 	params = str(text).split(" ")	
 	subcommand = ''
@@ -148,20 +166,15 @@ def executeParams(text,user_name, channel_id, user_id):
 	if params[0] == '':
 		subcommand = 'help'
 
-
-	intro = firebase.get('/game', None)
-	everything = intro['master']
-
-
 	if subcommand[0] == '@' and commandValue == '':
-		if gameOn:
+		if game.getGameStatus():
 			return createGameYesResponse()
 		else:
 			if isValidUsername(subcommand[1:], channel_id, user_id):				
-				'''board_json = { 'a1':everything['a1'], 'a2':everything['a2'], 'a3':everything['a3'], 'b1':everything['b1'], 'b2':everything['b2'], 'b3':everything['b3'],'c1':everything['c1'],'c2':everything['c2'],'c3':everything['c3'], 'first':user_name, 'second':subcommand[1:], 'firstS':everything['firstS'], 'secondS':everything['secondS'], 'gameOn':True, 'next':user_name }
-				firebase.put('/game', 'master', board_json)
-				game = tictactoe(user_name, subcommand[1:])
-				'''
+				game.changeFirstPlayer(user_name)
+				game.changeSecondPlayer(subcommand[1:0])
+				game.changeNextTurn(user_name)
+				game.update()
 				return createGameListResponse()
 			else:
 				return createInvalidUserResponse()
@@ -170,26 +183,39 @@ def executeParams(text,user_name, channel_id, user_id):
 		return createListResponseString()
 
 	elif subcommand == 'put':
-		if everything['next'] == user_name:	
-			a = game.changeBoardValue(commandValue, 'X')
-			pnextTurn = 'Turn: ' + everything['next']
-			board_json = { 'a1':a[0], 'a2':a[1], 'a3':a[2], 'b1':a[3], 'b2':a[4], 'b3':a[5],'c1':a[6],'c2':a[7],'c3':a[8], 'first':user_name, 'second':everything['second'], 'firstS':everything['firstS'], 'secondS':everything['secondS'], 'gameOn':True, 'next':pnextTurn }
-			firebase.put('/game', 'master', board_json)
-			end = game.checkGameEndCondition()
-			if end == -1:
-				return game.currentBoardString()+pnextTurn
-			else:
-				game = tictactoe(None, None, False)
-				return "The Winner is " + end
-		else:
-			return "Sorry but it doesn't seem like it's your turn"
-	
+		return createPutResponseString(user_name, commandValue)	
+
 	elif subcommand == 'help':
 		return createHelpResponseString() 
+	
 	else:
 		return createInvalidResponseString()
 
 	return "This should not execute. What did you do?"
+
+def createPutResponseString(user_name, commandValue):
+	global game
+	if game.getNextTurn() == user_name:
+		return createCorrectUserResponse(user_name, commandValue)
+	return createInvalidTurnResponse()
+
+def createCorrectUserResponse(user_name, commandValue):
+	global game
+	game.changeBoardValue(commandValue, game.getSymbol(user_name))
+	gameString = createGameListResponse()
+	endCondition = game.checkGameEndCondition()
+	winString = ''
+	if endCondition != -1
+		winString = 'The winner is '+ endCondition
+		game = tictactoe()
+	outputString = gameString + winString
+	return outputString
+
+def createInvalidTurnResponse():
+	global game
+	invalidTurnString = "Sorry, It's "+game.getNextTurn()+" turn"
+	outputString = invalidTurnString
+	return outputString
 
 def createHelpResponseString():
 	lsString = "/ttt ls: To see an ongoing game\n"
@@ -205,16 +231,18 @@ def createInvalidResponseString():
 	return outputString
 
 def createListResponseString():
-	if gameOn:
+	global game
+	if game.getGameStatus():
 		outputString = createGameListResponse()
 	outputString = createNoGameListResponse()
 	return outputString
 
 def createGameListResponse():
-	firstPlayerString = 'First Player : ' + '___GET PLAYER NAME___' + '___GET PLAYER SYMBOL__' 
-	secondPlayerString = 'Second Player : '+ '___GET PLAYER NAME___' + '___GET PLAYER SYMBOL__'
-	gameString = "__Get from some function__"
-	nextTurnString = 'Turn: ' + '__GET FROM SOME FUNCTION OR VARIABLE__'
+	global game
+	firstPlayerString = 'First Player : ' + game.getFirstPlayer() +' '+ getFirstPlayerSymbol() 
+	secondPlayerString = 'Second Player : '+ game.getSecondPlayer() +' '+ getSecondPlayerSymbol()
+	gameString = game.getBoard()
+	nextTurnString = 'Turn: ' + game.getNextTurn()
 	outputString = firstPlayerString + secondPlayerString + gameString + nextTurnString
 	return outputString
 
@@ -243,9 +271,6 @@ def isValidUsername(username, channel_id, user_id):
 if __name__ == "__main__":
     app.run(host = '0.0.0.0', port = 8000)
 
-
-game = tictactoe(None, None, False)
 sc = SlackClient('xoxp-98588410882-98566920132-101647984725-1587c9429306264be388b906421cf154')
 firebase = firebase.FirebaseApplication('https://sttt-52a44.firebaseio.com/', None)
-
-board_json = { 'a1':game.peekBoardValue('a1'), 'a2':game.peekBoardValue('a2'), 'a3':game.peekBoardValue('a3'), 'b1':game.peekBoardValue('b1'), 'b2':game.peekBoardValue('b2'), 'b3':game.peekBoardValue('b3'),'c1':game.peekBoardValue('c1'),'c2':game.peekBoardValue('c2'),'c3':game.peekBoardValue('c3'), 'first':game.getFirstPlayer(), 'second':game.getSecondPlayer(), 'firstS':game.getFirstPlayerSymbol(), 'secondS':game.getSecondPlayerSymbol(), 'gameOn':game.getGameStatus(), 'next':game.getFirstPlayer() }
+game = tictactoe()
