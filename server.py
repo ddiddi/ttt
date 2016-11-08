@@ -6,6 +6,15 @@ from firebase import firebase
 app = Flask(__name__)
 
 class tictactoe:
+
+	firstPlayer = 'NOPLAYER'
+	secondPlayer = 'NOPLAYER'
+	firstPlayerSymbol = 'X'
+	secondPlayerSymbol = 'O'
+	gameOn = False
+	boardValues = ['-','-','-','-','-','-','-','-','-'] 
+	nextTurn = 'NOPLAYER'
+
 	def __init__(self, firstPlayer=None, secondPlayer=None,gameStatus=True):
 		global firebase
 		self.firstPlayer = 'NOPLAYER'
