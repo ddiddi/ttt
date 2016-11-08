@@ -158,7 +158,7 @@ def executeParams(text,user_name, channel_id, user_id):
 
 	if subcommand[0] == '@' and commandValue == '':
 		print("Inside subs")
-		if intro['gameOn'] == True:
+		if intro['master]['gameOn'] == True:
 			return "A ttt game is already on.\n Use /ttt help to know more."
 		else:
 			print("Inside Valid Username before")
