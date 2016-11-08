@@ -83,7 +83,8 @@ class tictactoe:
 		}.get(position,-1)
 
 	def getBoard(self):
-		headerString = '*1 2 3  \n'
+		self.updateFromServer()
+		headerString = '\n*1 2 3  \n'
 		topLineString = 'a '+self.boardValues[0]+' '+self.boardValues[1]+' '+self.boardValues[2]+'\n'
 		middleLineString = 'b '+self.boardValues[3]+' '+self.boardValues[4]+' '+self.boardValues[5]+'\n'
 		bottomLineString = 'c '+self.boardValues[6]+' '+self.boardValues[7]+' '+self.boardValues[8]+'\n'
@@ -180,7 +181,6 @@ def executeParams(text,user_name, channel_id, user_id):
 	else:
 		subcommand = params[0]
 
-	game.updateFromServer()
 
 	if subcommand[0] == '@' and commandValue == '':
 		print("Here")
@@ -273,9 +273,9 @@ def createGameListResponse():
 	print("gamelist")
 	global game
 	print("gamelist1")
-	firstPlayerString = 'First Player : ' + game.getFirstPlayer() +' '+ game.getFirstPlayerSymbol() 
+	firstPlayerString = 'First Player : ' + game.getFirstPlayer() +' '+ game.getFirstPlayerSymbol()+' \n'
 	print("gamelist2")
-	secondPlayerString = 'Second Player : '+ game.getSecondPlayer() +' '+ game.getSecondPlayerSymbol()
+	secondPlayerString = 'Second Player : '+ game.getSecondPlayer() +' '+ game.getSecondPlayerSymbol()+' \n'
 	print("gamelist3")
 	gameString = game.getBoard()
 	print("gamelist4")
