@@ -201,6 +201,7 @@ def executeParams(text,user_name, channel_id, user_id):
 	#cursor = gamedb.find_one()
 	print("Here 3")
 	print(cursor)
+	print ("Where")
 
 	if subcommand[0] == '@' and commandValue == '':
 		print("Inside subs")
@@ -229,6 +230,7 @@ def executeParams(text,user_name, channel_id, user_id):
 				return "Seems like this user is not in this channel"
 	
 	elif subcommand == 'ls' and commandValue == '':
+		print ("Where 2")
 		if game.getGameStatus():
 			op1 = 'First Player : ' + user_name + game.getFirstPlayerSymbol()+'\n'
 			op2 = 'Second Player: ' + subcommand[1:]+ game.getSecondPlayerSymbol()+'\n'
@@ -254,6 +256,7 @@ def executeParams(text,user_name, channel_id, user_id):
 				return "The Winner is " + end
 	
 	elif subcommand == 'help':
+		print ("Where 4")
 		return ("/ttt ls: To see an ongoing game\n /ttt @<username>: To challenge someone in the channel \n/ttt put <row alphabet><column number>: To put a mark at the position \n/ttt help: To see this menu again")
 	else:
 		return "Sorry, that doesn't seem like a valid command. \n Use /ttt help to know more"
