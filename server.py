@@ -210,13 +210,19 @@ def executeParams(text,user_name, channel_id, user_id):
 			if isValidUsername(subcommand[1:], channel_id, user_id):
 				print("Inside Valid Username")
 				board_json = [ { 'a1':cursor['a1'], 'a2':cursor['a2'], 'a3':cursor['a3'], 'b1':cursor['b1'], 'b2':cursor['b2'], 'b3':cursor['b3'],'c1':cursor['c1'],'c2':cursor['c2'],'c3':cursor['c3'], 'first':user_name, 'second':subcommand[1:], 'firstS':cursor['firstS'], 'secondS':cursor['secondS'], 'gameOn':True, 'next':cursor['next'] }]
+				print("Inside Valid Username 2")
 				gamedb.insert(board_json)
+				print("Inside Valid Username 3")
 				cursor = gamedb.find_one()
+				print("Inside Valid Username 4")
 				game = tictactoe(user_name, subcommand[1:])
-
+				print("Inside Valid Username 5")
 				oop1 = 'First Player : ' + user_name + cursor['firstS']+'\n'
+				print("Inside Valid Username 6")
 				oop2 = 'Second Player: ' + subcommand[1:]+ cursor['secondS']+'\n'
+				print("Inside Valid Username 7")
 				nnextTurn = 'Turn: ' + cursor['next']
+				print("Inside Valid Username 8")
 				return oop1+oop2+game.currentBoardString()+nnextTurn
 			else:
 				return "Seems like this user is not in this channel"
