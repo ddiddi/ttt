@@ -191,7 +191,7 @@ def executeParams(text,user_name, channel_id, user_id):
 				print("Here3")				
 				game.changeFirstPlayer(user_name)
 				print("Here4")
-				game.changeSecondPlayer(subcommand[1:0])
+				game.changeSecondPlayer(subcommand[1:])
 				print("Here5")
 				game.changeNextTurn(user_name)
 				print("Here6")
