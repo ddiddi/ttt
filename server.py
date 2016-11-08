@@ -1,30 +1,7 @@
 from flask import Flask, request
 import json
-import pymongo
 from slackclient import SlackClient
-
-SEED_DATA = [
-    {
-        'decade': '1970s',
-        'artist': 'Debby Boone',
-        'song': 'You Light Up My Life',
-        'weeksAtOne': 10
-    },
-    {
-        'decade': '1980s',
-        'artist': 'Olivia Newton-John',
-        'song': 'Physical',
-        'weeksAtOne': 10
-    },
-    {
-        'decade': '1990s',
-        'artist': 'Mariah Carey',
-        'song': 'One Sweet Day',
-        'weeksAtOne': 16
-    }
-]
-
-MONGODB_URI = 'mongodb://heroku_k89bf523:c2e67sq8bm6cgs8qdpslhbjmrv@ds147267.mlab.com:47267/heroku_k89bf523'
+from firebase import firebase
 
 app = Flask(__name__)
 
@@ -164,44 +141,17 @@ def game():
 
 
 def executeParams(text,user_name, channel_id, user_id):
-	"""query = {'song': 'One Sweet Day'}
-
-	songs.update(query, {'$set': {'artist': 'Mariah Carey ft. Boyz II Men'}})
-	cursor = songs.find({'weeksAtOne': {'$gte': 10}}).sort('decade', 1)
-
-	for doc in cursor:
-		print ('In the %s, %s by %s topped the charts for %d straight weeks.' % (doc['decade'], doc['song'], doc['artist'], doc['weeksAtOne']))
-	"""
 	global game 	
-	global cursor
-	global mongo_id
-	global db.test
-	print("Here 1")
-	"""print("ASDDDDDDDDD")
-	board_json = [ { 'a1':game.peekBoardValue('a1'), 'a2':game.peekBoardValue('a2'), 'a3':game.peekBoardValue('a3'), }]
-	game_json = json.dumps(board_json)
-	print(SEED_DATA)
-	print(game_json)
-	gamedb.insert(board_json)
-
-	cursor = gamedb.find_one()
-	print("ASDDDDDDDDDwsss")
-	print(cursor)
-	"""
-	
 	params = str(text).split(" ")
 	commandValue = ''
 	subcommand = params[0]
 	if len(params)>1:
 		commandValue = params[1]
 	print("Here 2")
-	print(subcommand)
-	print(commandValue)
-	cursor = db.test.find_one({'id':0})
-	print("Here 3")
-	print(cursor)
-	print ("Where")
-
+	
+	firebase = firebase.FirebaseApplication('https://sttt-52a44.firebaseio.com/', None)
+	intro = firebase.get('/game', None)
+	print (intro)
 	if subcommand == '':
 		subcommand = 'help'
 
@@ -262,10 +212,6 @@ def executeParams(text,user_name, channel_id, user_id):
 	elif subcommand == 'help':
 		print ("Where 4")
 		return ("/ttt ls: To see an ongoing game\n /ttt @<username>: To challenge someone in the channel \n/ttt put <row alphabet><column number>: To put a mark at the position \n/ttt help: To see this menu again")
-	elif subcommand == 'clear':
-		db.drop_collection('gamedb')
-		client.close()
-		return "Remove from db"
 	else:
 		return "Sorry, that doesn't seem like a valid command. \n Use /ttt help to know more"
 
@@ -285,14 +231,8 @@ if __name__ == "__main__":
     app.run()
 
 
-print("mmmmmmmmm")
 game = tictactoe(None, None, False)
-print("mmmmmmmmm3")
 sc = SlackClient('xoxp-98588410882-98566920132-101647984725-1587c9429306264be388b906421cf154')
-print("mmmmmmmmm2")
-client = pymongo.MongoClient(MONGODB_URI)
-db = client.get_default_database()
-print("ASDDDDDDDDD11111")
 board_json = { 'id':0, 'a1':game.peekBoardValue('a1'), 'a2':game.peekBoardValue('a2'), 'a3':game.peekBoardValue('a3'), 'b1':game.peekBoardValue('b1'), 'b2':game.peekBoardValue('b2'), 'b3':game.peekBoardValue('b3'),'c1':game.peekBoardValue('c1'),'c2':game.peekBoardValue('c2'),'c3':game.peekBoardValue('c3'), 'first':game.getFirstPlayer(), 'second':game.getSecondPlayer(), 'firstS':game.getFirstPlayerSymbol(), 'secondS':game.getSecondPlayerSymbol(), 'gameOn':game.getGameStatus(), 'next':game.getFirstPlayer() }
-mongo_id = db.test.insert_one(board_json)
-print(mongo_id)
+firebase = firebase.FirebaseApplication('https://sttt-52a44.firebaseio.com/', None)
+print firebase.post('/game', board_json)
