@@ -7,7 +7,6 @@ app = Flask(__name__)
 
 class tictactoe:
 	'Base class from Tic Tac Toe Game'
-
 	boardValues = ['-','-','-','-','-','-','-','-','-']
 	gameOn = False
 	firstPlayerSymbol = 'X'
@@ -27,13 +26,9 @@ class tictactoe:
 		return -1
 
 	def changeBoardValue(self, position, newValue):
-		print("Asdasddddddddddd")
 		i = self.getBoardIndex(position)
-		print("Asdssasddddddddddd")
 		if i != -1:
-			print("Asaaaaaaadasddddddddddd")
 			self.boardValues[i] = newValue
-		print("Asdasdddddddddddd3333333333")
 		return self.boardValues
 
 	def clearBoard(self):
@@ -125,7 +120,6 @@ class tictactoe:
 
 @app.route("/",methods=['POST','GET'])
 def game():
-	print("****Logging*****In main function")
 	channel_id = request.form['channel_id']
 	token = request.form['token']
 	command = request.form['command']
@@ -138,76 +132,48 @@ def game():
 	user_name = request.form['user_name']
 	output = str(executeParams(text,user_name,channel_id, user_id))
 	return output,200
-	#print user_name
-	#return '| X | 0 | 0 |\n|---+---+---|\n| X | 0 | 0 |\n|---+---+---|\n| X | 0 | 0 |',200
 
 
 
 def executeParams(text,user_name, channel_id, user_id):
 	global game 	
 	global firebase
-	params = str(text).split(" ")
+
+
+	params = str(text).split(" ")	
+	subcommand = ''
 	commandValue = ''
-	subcommand = params[0]
 	if len(params)>1:
 		commandValue = params[1]
-	print("Here 2")
-	
-	print("Here 3")
-	intro = firebase.get('/game', None)
-	print (intro)
-	if subcommand == '':
+	if params[0] == '':
 		subcommand = 'help'
 
+
+	intro = firebase.get('/game', None)
 	everything = intro['master']
 
+
 	if subcommand[0] == '@' and commandValue == '':
-		print("Inside subs")
-		if everything['gameOn'] == True:
-			return "A ttt game is already on.\n Use /ttt help to know more."
+		if gameOn:
+			return createGameYesResponse()
 		else:
-			print("Inside Valid Username before")
-			if isValidUsername(subcommand[1:], channel_id, user_id):
-				print("Inside Valid Username")
-				board_json = { 'a1':everything['a1'], 'a2':everything['a2'], 'a3':everything['a3'], 'b1':everything['b1'], 'b2':everything['b2'], 'b3':everything['b3'],'c1':everything['c1'],'c2':everything['c2'],'c3':everything['c3'], 'first':user_name, 'second':subcommand[1:], 'firstS':everything['firstS'], 'secondS':everything['secondS'], 'gameOn':True, 'next':user_name }
-				print("Inside Valid Username 2")
-				print("asdddd")
+			if isValidUsername(subcommand[1:], channel_id, user_id):				
+				'''board_json = { 'a1':everything['a1'], 'a2':everything['a2'], 'a3':everything['a3'], 'b1':everything['b1'], 'b2':everything['b2'], 'b3':everything['b3'],'c1':everything['c1'],'c2':everything['c2'],'c3':everything['c3'], 'first':user_name, 'second':subcommand[1:], 'firstS':everything['firstS'], 'secondS':everything['secondS'], 'gameOn':True, 'next':user_name }
 				firebase.put('/game', 'master', board_json)
-				print("Inside Valid Username 4")
 				game = tictactoe(user_name, subcommand[1:])
-				print("Inside Valid Username 5")
-				oop1 = 'First Player : ' + user_name + everything['firstS']+'\n'
-				print("Inside Valid Username 6")
-				oop2 = 'Second Player: ' + subcommand[1:]+ everything['secondS']+'\n'
-				print("Inside Valid Username 7")
-				nnextTurn = 'Turn: ' + user_name
-				print("Inside Valid Username 8")
-				return oop1+oop2+game.currentBoardString()+nnextTurn
+				'''
+				return createGameListResponse()
 			else:
-				return "Seems like this user is not in this channel"
+				return createInvalidUserResponse()
 	
 	elif subcommand == 'ls' and commandValue == '':
-		print ("Where 2")
-		if game.getGameStatus():
-			op1 = 'First Player : ' + user_name + game.getFirstPlayerSymbol()+'\n'
-			op2 = 'Second Player: ' + subcommand[1:]+ game.getSecondPlayerSymbol()+'\n'
-			nextTurn = 'Turn: ' + everything['next']
-			print("working here 2")
-			return op1+op2+game.currentBoardString()+nextTurn
-		else:
-			return "Seems like there isn't any ttt game on right now"
+		return createListResponseString()
 
 	elif subcommand == 'put':
-		print("asdasdasd")
-		print(everything)
 		if everything['next'] == user_name:	
-			print("ajsdk,asjd,")	
 			a = game.changeBoardValue(commandValue, 'X')
-			print("asdasdasdd////////d")
 			pnextTurn = 'Turn: ' + everything['next']
-			print("asdasdaddddsd")
 			board_json = { 'a1':a[0], 'a2':a[1], 'a3':a[2], 'b1':a[3], 'b2':a[4], 'b3':a[5],'c1':a[6],'c2':a[7],'c3':a[8], 'first':user_name, 'second':everything['second'], 'firstS':everything['firstS'], 'secondS':everything['secondS'], 'gameOn':True, 'next':pnextTurn }
-			print("asdasdasddddddddddddddddd")
 			firebase.put('/game', 'master', board_json)
 			end = game.checkGameEndCondition()
 			if end == -1:
@@ -219,22 +185,60 @@ def executeParams(text,user_name, channel_id, user_id):
 			return "Sorry but it doesn't seem like it's your turn"
 	
 	elif subcommand == 'help':
-		print ("Where 4")
-		return ("/ttt ls: To see an ongoing game\n /ttt @<username>: To challenge someone in the channel \n/ttt put <row alphabet><column number>: To put a mark at the position \n/ttt help: To see this menu again")
+		return createHelpResponseString() 
 	else:
-		return "Sorry, that doesn't seem like a valid command. \n Use /ttt help to know more"
+		return createInvalidResponseString()
 
-	return "Never Executes"
+	return "This should not execute. What did you do?"
 
+def createHelpResponseString():
+	lsString = "/ttt ls: To see an ongoing game\n"
+	challengeString = "/ttt @<username>: To challenge someone in the channel \n"
+	moveString = "/ttt put <row alphabet><column number>: To put a mark at the position \n"
+	helpString = "/ttt help: To see this menu again"
+	outputString = lsString+challengeString+moveString+helpString
+	return outputString
+
+def createInvalidResponseString():
+	invalidString = "Sorry, that doesn't seem like a valid command. \n Use /ttt help to know more"
+	outputString  = invalidString
+	return outputString
+
+def createListResponseString():
+	if gameOn:
+		outputString = createGameListResponse()
+	outputString = createNoGameListResponse()
+	return outputString
+
+def createGameListResponse():
+	firstPlayerString = 'First Player : ' + '___GET PLAYER NAME___' + '___GET PLAYER SYMBOL__' 
+	secondPlayerString = 'Second Player : '+ '___GET PLAYER NAME___' + '___GET PLAYER SYMBOL__'
+	gameString = "__Get from some function__"
+	nextTurnString = 'Turn: ' + '__GET FROM SOME FUNCTION OR VARIABLE__'
+	outputString = firstPlayerString + secondPlayerString + gameString + nextTurnString
+	return outputString
+
+def createNoGameListResponse():
+	noGameString = 'Seems like there isn't any ttt game on right now.\n Use /ttt @username to challenge someone'
+	outputString = noGameString
+	return outputString
+
+def createGameYesResponse():
+	gameOnString = 'A ttt game is already on.\n Use /ttt help to know more.'
+	outputString = gameOnString
+	return outputString
+
+def createInvalidUserResponse():
+	invalidString = 'Seems like this user is not in this channel'
+	outputString = invalidString
+	return outputString
 
 def isValidUsername(username, channel_id, user_id):
-	print("asdddddddd")
 	response = sc.api_call("channels.info",channel=channel_id)
-	print(response)
-	print(response['channel']['members'])
 	if user_id in response['channel']['members']:
 		return True
 	return False
+
 
 if __name__ == "__main__":
     app.run(host = '0.0.0.0', port = 8000)
@@ -242,6 +246,6 @@ if __name__ == "__main__":
 
 game = tictactoe(None, None, False)
 sc = SlackClient('xoxp-98588410882-98566920132-101647984725-1587c9429306264be388b906421cf154')
-board_json = { 'a1':game.peekBoardValue('a1'), 'a2':game.peekBoardValue('a2'), 'a3':game.peekBoardValue('a3'), 'b1':game.peekBoardValue('b1'), 'b2':game.peekBoardValue('b2'), 'b3':game.peekBoardValue('b3'),'c1':game.peekBoardValue('c1'),'c2':game.peekBoardValue('c2'),'c3':game.peekBoardValue('c3'), 'first':game.getFirstPlayer(), 'second':game.getSecondPlayer(), 'firstS':game.getFirstPlayerSymbol(), 'secondS':game.getSecondPlayerSymbol(), 'gameOn':game.getGameStatus(), 'next':game.getFirstPlayer() }
 firebase = firebase.FirebaseApplication('https://sttt-52a44.firebaseio.com/', None)
-print firebase.put('/game', 'master', board_json)
+
+board_json = { 'a1':game.peekBoardValue('a1'), 'a2':game.peekBoardValue('a2'), 'a3':game.peekBoardValue('a3'), 'b1':game.peekBoardValue('b1'), 'b2':game.peekBoardValue('b2'), 'b3':game.peekBoardValue('b3'),'c1':game.peekBoardValue('c1'),'c2':game.peekBoardValue('c2'),'c3':game.peekBoardValue('c3'), 'first':game.getFirstPlayer(), 'second':game.getSecondPlayer(), 'firstS':game.getFirstPlayerSymbol(), 'secondS':game.getSecondPlayerSymbol(), 'gameOn':game.getGameStatus(), 'next':game.getFirstPlayer() }
