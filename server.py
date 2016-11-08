@@ -210,6 +210,7 @@ def executeParams(text,user_name, channel_id, user_id):
 
 	elif subcommand == 'put':
 		print("Here9")
+		game.updateFromServer()
 		if game.getGameStatus():
 			print("Here10")
 			return createPutResponseString(user_name, commandValue)
