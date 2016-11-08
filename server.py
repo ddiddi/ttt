@@ -180,6 +180,8 @@ def executeParams(text,user_name, channel_id, user_id):
 	else:
 		subcommand = params[0]
 
+	game.updateFromServer()
+
 	if subcommand[0] == '@' and commandValue == '':
 		print("Here")
 		if game.getGameStatus():
