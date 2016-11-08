@@ -82,6 +82,7 @@ class tictactoe:
 		return outputString
 
 	def getFirstPlayer(self):
+		print("Meow1")
 		return self.firstPlayer
 
 	def getSecondPlayer(self):
@@ -94,6 +95,7 @@ class tictactoe:
 		self.secondPlayer = newValue
 
 	def getFirstPlayerSymbol(self):
+		print("Meow")
 		return self.firstPlayerSymbol
 
 	def getSecondPlayerSymbol(self):
