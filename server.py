@@ -247,7 +247,7 @@ def createGameListResponse():
 	return outputString
 
 def createNoGameListResponse():
-	noGameString = 'Seems like there isn't any ttt game on right now.\n Use /ttt @username to challenge someone'
+	noGameString = 'Seems like there isn\'t any ttt game on right now.\n Use /ttt @username to challenge someone'
 	outputString = noGameString
 	return outputString
 
