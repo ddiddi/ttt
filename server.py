@@ -195,7 +195,9 @@ def executeParams(text,user_name, channel_id, user_id):
 				print("Here5")
 				game.changeNextTurn(user_name)
 				print("Here6")
+
 				game.update()
+				print(game.getFirstPlayer())
 				print("Here7")
 				return createGameListResponse()
 			else:
