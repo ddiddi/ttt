@@ -31,19 +31,19 @@ class tictactoe:
 		data = firebase.get('/game', None)
 		dataValues = data['master']
 		print(dataValues)
-		self._firstPlayer = dataValues['firstPlayer']
+		self.firstPlayer = dataValues['firstPlayer']
 		print("asdasd5")
-		self._secondPlayer = dataValues['secondPlayer']
+		self.secondPlayer = dataValues['secondPlayer']
 		print("asdasd4")
-		self._firstPlayerSymbol = dataValues['firstPlayerSymbol']
+		self.firstPlayerSymbol = dataValues['firstPlayerSymbol']
 		print("asdasd5")
-		self._secondPlayerSymbol = dataValues['secondPlayerSymbol']
+		self.secondPlayerSymbol = dataValues['secondPlayerSymbol']
 		print("asdasd6")
-		self._gameOn = dataValues['gameOn']
+		self.gameOn = dataValues['gameOn']
 		print("asdasd7")
-		self._boardValues = dataValues['boardValues'] 
+		self.boardValues = dataValues['boardValues'] 
 		print("asdasd8")
-		self._nextTurn = dataValues['nextTurn']
+		self.nextTurn = dataValues['nextTurn']
 
 	def update(self):
 		global firebase
@@ -58,17 +58,23 @@ class tictactoe:
 	def changeBoardValue(self, position, newValue):
 		i = self.getBoardIndex(position)
 		if i != -1:
-			self.boardValues[i] = newValue
+			temp = self.boardValues
+			temp[i] = newValue
+			self.boardValues = temp
 			self.flipTurn()
 			self.update()
 		return "Invalid position"
+
+	@property 
+	def boardValues(self):
+		return self.__class__._boardValues
 
 	@property 
 	def gameOn(self):
 		return self.__class__._gameOn
 
 	@gameOn.setter
-	def changeGameStatus(self, newValue):
+	def gameOn(self, newValue):
 		self.__class__._gameOn = newValue
 
 	def getBoardIndex(self, position):
@@ -101,11 +107,11 @@ class tictactoe:
 		return self.__class__._secondPlayer
 
 	@firstPlayer.setter
-	def changeFirstPlayer(self, newValue):
+	def firstPlayer(self, newValue):
 		self.__class__._firstPlayer = newValue
 
 	@secondPlayer.setter
-	def changeSecondPlayer(self, newValue):
+	def secondPlayer(self, newValue):
 		self.__class__._secondPlayer = newValue
 
 	@property
@@ -117,11 +123,11 @@ class tictactoe:
 		return self.__class__._secondPlayerSymbol
 	
 	@firstPlayerSymbol.setter
-	def changeFirstPlayerSymbol(self, newValue):
+	def firstPlayerSymbol(self, newValue):
 		self.__class__._firstPlayerSymbol = newValue
 
 	@secondPlayerSymbol.setter
-	def changeSecondPlayerSymbol(self, newValue):
+	def secondPlayerSymbol(self, newValue):
 		self.__class__._secondPlayerSymbol = newValue
 
 	def checkGameEndCondition(self):
@@ -150,14 +156,14 @@ class tictactoe:
 		return self.__class__._nextTurn
 
 	@nextTurn.setter
-	def changeNextTurn(self, newValue):
+	def nextTurn(self, newValue):
 		self.__class__._nextTurn = newValue
 
 	def flipTurn(self):
-		if self.nextTurn == self.firstPlayer:
-			self.nextTurn = self.secondPlayer
+		if self._nextTurn == self._firstPlayer:
+			self._nextTurn = self._secondPlayer
 		else:
-			self.nextTurn = self.firstPlayer
+			self._nextTurn = self._firstPlayer
 
 @app.route("/",methods=['POST','GET'])
 def game():
@@ -201,13 +207,13 @@ def executeParams(text,user_name, channel_id, user_id):
 			print("Here2")
 			if isValidUsername(subcommand[1:], channel_id, user_id):
 				print("Here3")				
-				game.changeFirstPlayer(user_name)
+				game.firstPlayer = user_name
 				print("Here4")
-				game.changeSecondPlayer(subcommand[1:])
+				game.secondPlayer = subcommand[1:]
 				print("Here5")
-				game.changeNextTurn(user_name)
+				game.nextTurn = user_name
 				print("Here6")
-				game.changeGameStatus(True)
+				game.gameOn = True
 				game.update()
 				print(game.firstPlayer)
 				print("Here7")
