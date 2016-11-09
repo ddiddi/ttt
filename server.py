@@ -163,7 +163,7 @@ def game():
 	user_name = request.form['user_name']
 	return_text = str(executeParams(text,user_name,channel_id, user_id))
 	a = {'text':return_text, 'response_type': 'in_channel'}
-	return json.dumps(a)
+	return Response(json.dumps(a),  mimetype='application/json')
 
 
 
