@@ -161,10 +161,10 @@ class tictactoe:
 		self.__class__._nextTurn = newValue
 
 	def flipTurn(self):
-		if self._nextTurn == self._firstPlayer:
-			self._nextTurn = self._secondPlayer
+		if self.nextTurn == self.firstPlayer:
+			self.nextTurn = self.secondPlayer
 		else:
-			self._nextTurn = self._firstPlayer
+			self.nextTurn = self.firstPlayer
 
 @app.route("/",methods=['POST','GET'])
 def game():
