@@ -7,16 +7,15 @@ app = Flask(__name__)
 
 class tictactoe:
 
-	firstPlayer = 'NOPLAYER'
-	secondPlayer = 'NOPLAYER'
-	firstPlayerSymbol = 'X'
-	secondPlayerSymbol = 'O'
-	gameOn = False
-	boardValues = ['-','-','-','-','-','-','-','-','-'] 
-	nextTurn = 'NOPLAYER'
-
 	def __init__(self):
 		global firebase
+		self.firstPlayer = 'NOPLAYER'
+		self.secondPlayer = 'NOPLAYER'
+		self.firstPlayerSymbol = 'X'
+		self.secondPlayerSymbol = 'O'
+		self.gameOn = False
+		self.boardValues = ['-','-','-','-','-','-','-','-','-'] 
+		self.nextTurn = 'NOPLAYER'
 		json_format = self.serialize()
 		firebase.put('/game', 'master', json_format)
 
