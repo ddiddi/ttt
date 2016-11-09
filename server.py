@@ -206,7 +206,8 @@ def executeParams(text,user_name, channel_id, user_id):
 		else:
 			print("Here2")
 			if isValidUsername(subcommand[1:], channel_id, user_id):
-				print("Here3")				
+				print("Here3")
+				print(game.firstPlayer)		
 				game.firstPlayer = user_name
 				print("Here4")
 				game.secondPlayer = subcommand[1:]
