@@ -40,9 +40,8 @@ class tictactoe:
 		print(dataValues)
 		print(self.firstPlayer)
 		print("dddddddasdasdasdMoguu")
-		for i in dataValues:
-			print(i)
-		print("dddddddddddddd")
+		print(dataValues['firstPlayer'])
+		print("asdggddddddddd")
 		self.firstPlayer = dataValues['firstPlayer']
 		print("asdasd5")
 		self.secondPlayer = dataValues['secondPlayer']
