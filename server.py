@@ -36,7 +36,7 @@ class tictactoe:
 	def updateFromServer(self):
 		global firebase
 		data = firebase.get('/game', None)
-		dataValues = data['master']
+		dataValues = deserialize(data)
 		print(dataValues)
 		print(self.firstPlayer)
 		print("dddddddasdasdasdMoguu")
