@@ -7,15 +7,16 @@ app = Flask(__name__)
 
 class tictactoe:
 
+	_firstPlayer = 'NOPLAYER'
+	_secondPlayer = 'NOPLAYER'
+	_firstPlayerSymbol = 'X'
+	_secondPlayerSymbol = 'O'
+	_gameOn = False
+	_boardValues = ['-','-','-','-','-','-','-','-','-'] 
+	_nextTurn = 'NOPLAYER'
+
 	def __init__(self):
 		global firebase
-		self.firstPlayer = 'NOPLAYER'
-		self.secondPlayer = 'NOPLAYER'
-		self.firstPlayerSymbol = 'X'
-		self.secondPlayerSymbol = 'O'
-		self.gameOn = False
-		self.boardValues = ['-','-','-','-','-','-','-','-','-'] 
-		self.nextTurn = 'NOPLAYER'
 		json_format = self.serialize()
 		firebase.put('/game', 'master', json_format)
 
@@ -26,27 +27,23 @@ class tictactoe:
 		return json.loads(json_input)
 
 	def updateFromServer(self):
-		print("asdasd")
 		global firebase
-		print("asdasd1")
 		data = firebase.get('/game', None)
-		print("asdasd2")
 		dataValues = data['master']
-		print("asdasd3")
 		print(dataValues)
-		self.firstPlayer = dataValues['firstPlayer']
+		self._firstPlayer = dataValues['firstPlayer']
 		print("asdasd5")
-		self.secondPlayer = dataValues['secondPlayer']
+		self._secondPlayer = dataValues['secondPlayer']
 		print("asdasd4")
-		self.firstPlayerSymbol = dataValues['firstPlayerSymbol']
+		self._firstPlayerSymbol = dataValues['firstPlayerSymbol']
 		print("asdasd5")
-		self.secondPlayerSymbol = dataValues['secondPlayerSymbol']
+		self._secondPlayerSymbol = dataValues['secondPlayerSymbol']
 		print("asdasd6")
-		self.gameOn = dataValues['gameOn']
+		self._gameOn = dataValues['gameOn']
 		print("asdasd7")
-		self.boardValues = dataValues['boardValues'] 
+		self._boardValues = dataValues['boardValues'] 
 		print("asdasd8")
-		self.nextTurn = dataValues['nextTurn']
+		self._nextTurn = dataValues['nextTurn']
 
 	def update(self):
 		global firebase
@@ -66,11 +63,13 @@ class tictactoe:
 			self.update()
 		return "Invalid position"
 
-	def getGameStatus(self):
-		return self.gameOn
+	@property 
+	def gameOn(self):
+		return self.__class__._gameOn
 
+	@gameOn.setter
 	def changeGameStatus(self, newValue):
-		self.gameOn = newValue
+		self.__class__._gameOn = newValue
 
 	def getBoardIndex(self, position):
 		return {
@@ -93,31 +92,37 @@ class tictactoe:
 		outputString = headerString+topLineString+middleLineString+bottomLineString
 		return outputString
 
-	def getFirstPlayer(self):
-		print("Meow1")
-		return self.firstPlayer
+	@property
+	def firstPlayer(self):
+		return self.__class__._firstPlayer
 
-	def getSecondPlayer(self):
-		return self.secondPlayer
+	@property 
+	def secondPlayer(self):
+		return self.__class__._secondPlayer
 
+	@firstPlayer.setter
 	def changeFirstPlayer(self, newValue):
-		self.firstPlayer = newValue
+		self.__class__._firstPlayer = newValue
 
+	@secondPlayer.setter
 	def changeSecondPlayer(self, newValue):
-		self.secondPlayer = newValue
+		self.__class__._secondPlayer = newValue
 
-	def getFirstPlayerSymbol(self):
-		print("Meow")
-		return self.firstPlayerSymbol
+	@property
+	def firstPlayerSymbol(self):
+		return self.__class__._firstPlayerSymbol
 
-	def getSecondPlayerSymbol(self):
-		return self.secondPlayerSymbol
-
+	@property
+	def secondPlayerSymbol(self):
+		return self.__class__._secondPlayerSymbol
+	
+	@firstPlayerSymbol.setter
 	def changeFirstPlayerSymbol(self, newValue):
-		self.firstPlayerSymbol = newValue
+		self.__class__._firstPlayerSymbol = newValue
 
+	@secondPlayerSymbol.setter
 	def changeSecondPlayerSymbol(self, newValue):
-		self.secondPlayerSymbol = newValue
+		self.__class__._secondPlayerSymbol = newValue
 
 	def checkGameEndCondition(self):
 		if ((self.boardValues[0] == self.boardValues[1] == self.boardValues[2] == self.firstPlayerSymbol)
@@ -128,7 +133,7 @@ class tictactoe:
 			or (self.boardValues[2] == self.boardValues[5] == self.boardValues[8] == self.firstPlayerSymbol)
 			or (self.boardValues[0] == self.boardValues[4] == self.boardValues[8] == self.firstPlayerSymbol)
 			or (self.boardValues[2] == self.boardValues[4] == self.boardValues[6] == self.firstPlayerSymbol)):
-			return getFirstPlayer()
+			return self._firstPlayer()
 		if ((self.boardValues[0] == self.boardValues[1] == self.boardValues[2] == self.secondPlayerSymbol)
 			or (self.boardValues[3] == self.boardValues[4] == self.boardValues[5] == self.secondPlayerSymbol)
 			or (self.boardValues[6] == self.boardValues[7] == self.boardValues[8] == self.secondPlayerSymbol)
@@ -137,14 +142,16 @@ class tictactoe:
 			or (self.boardValues[2] == self.boardValues[5] == self.boardValues[8] == self.secondPlayerSymbol)
 			or (self.boardValues[0] == self.boardValues[4] == self.boardValues[8] == self.secondPlayerSymbol)
 			or (self.boardValues[2] == self.boardValues[4] == self.boardValues[6] == self.secondPlayerSymbol)):
-			return getSecondPlayer()
+			return self._secondPlayer()
 		return -1
 
-	def getNextTurn(self):
-		return self.nextTurn
+	@property
+	def nextTurn(self):
+		return self.__class__._nextTurn
 
+	@nextTurn.setter
 	def changeNextTurn(self, newValue):
-		self.nextTurn = newValue
+		self.__class__._nextTurn = newValue
 
 	def flipTurn(self):
 		if self.nextTurn == self.firstPlayer:
@@ -187,7 +194,7 @@ def executeParams(text,user_name, channel_id, user_id):
 
 	if subcommand[0] == '@' and commandValue == '':
 		print("Here")
-		if game.getGameStatus():
+		if game.gameOn:
 			print("Here1")
 			return createGameYesResponse()
 		else:
@@ -216,7 +223,7 @@ def executeParams(text,user_name, channel_id, user_id):
 		print("Here9")
 		game.updateFromServer()
 		print("Here11111")
-		if game.getGameStatus():
+		if game.gameOn:
 			print("Here10")
 			return createPutResponseString(user_name, commandValue)
 		return createNoGameListResponse()
@@ -231,7 +238,7 @@ def executeParams(text,user_name, channel_id, user_id):
 
 def createPutResponseString(user_name, commandValue):
 	global game
-	if game.getNextTurn() == user_name:
+	if game.nextTurn == user_name:
 		return createCorrectUserResponse(user_name, commandValue)
 	return createInvalidTurnResponse()
 
@@ -249,7 +256,7 @@ def createCorrectUserResponse(user_name, commandValue):
 
 def createInvalidTurnResponse():
 	global game
-	invalidTurnString = "Sorry, It's "+game.getNextTurn()+" turn"
+	invalidTurnString = "Sorry, It's "+game.nextTurn+" turn"
 	outputString = invalidTurnString
 	return outputString
 
@@ -268,7 +275,7 @@ def createInvalidResponseString():
 
 def createListResponseString():
 	global game
-	if game.getGameStatus():
+	if game.gameOn:
 		outputString = createGameListResponse()
 	else:
 		outputString = createNoGameListResponse()
@@ -278,13 +285,13 @@ def createGameListResponse():
 	print("gamelist")
 	global game
 	print("gamelist1")
-	firstPlayerString = 'First Player : ' + game.getFirstPlayer() +' '+ game.getFirstPlayerSymbol()+' \n'
+	firstPlayerString = 'First Player : ' + game.firstPlayer +' '+ game.firstPlayerSymbol+' \n'
 	print("gamelist2")
-	secondPlayerString = 'Second Player : '+ game.getSecondPlayer() +' '+ game.getSecondPlayerSymbol()+' \n'
+	secondPlayerString = 'Second Player : '+ game.secondPlayer +' '+ game.secondPlayerSymbol+' \n'
 	print("gamelist3")
 	gameString = game.getBoard()
 	print("gamelist4")
-	nextTurnString = 'Turn: ' + game.getNextTurn()
+	nextTurnString = 'Turn: ' + game.nextTurn
 	print("gamelist5")
 	outputString = firstPlayerString + secondPlayerString + gameString + nextTurnString
 	print(outputString)
