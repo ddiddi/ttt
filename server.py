@@ -248,7 +248,7 @@ def createCorrectUserResponse(user_name, commandValue):
 	endCondition = game.checkGameEndCondition()
 	winString = ''
 	if endCondition != -1:
-		if endCondition == 'Draw'
+		if endCondition == 'Draw':
 			winString = 'It is a draw!'
 		else:
 			winString = 'The winner is '+ endCondition +' \n'
