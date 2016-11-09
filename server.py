@@ -39,6 +39,7 @@ class tictactoe:
 		dataValues = data['master']
 		print(dataValues)
 		print(self.firstPlayer)
+		print(dataValues['firstPlayer'])
 		self.firstPlayer = dataValues['firstPlayer']
 		print("asdasd5")
 		self.secondPlayer = dataValues['secondPlayer']
