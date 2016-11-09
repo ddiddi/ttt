@@ -38,7 +38,7 @@ class tictactoe:
 		print("ddddddd")
 		data = firebase.get('/game', None)
 		print(data['master'])
-		print(data['master']['firstPlayer'])
+		print(self.deserialize(data['master']))
 		print("dddddddasdasdasdMoguu")
 		print(dataValues['firstPlayer'])
 		print("asdggddddddddd")
