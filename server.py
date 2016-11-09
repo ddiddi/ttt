@@ -31,6 +31,7 @@ class tictactoe:
 		return json.dumps(self, default=lambda o: o.__dict__)
 
 	def deserialize(self, json_input):
+		print("dddd")
 		return json.loads(json_input)
 
 	def updateFromServer(self):
