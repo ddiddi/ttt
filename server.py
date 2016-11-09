@@ -144,7 +144,7 @@ class tictactoe:
 
 	def checkGameEndCondition(self):
 		tboardValues = self.boardValues
-		if ((tboardValuest[0] == tboardValues[1] == tboardValues[2] == self.firstPlayerSymbol)
+		if ((tboardValues[0] == tboardValues[1] == tboardValues[2] == self.firstPlayerSymbol)
 			or (tboardValues[3] == tboardValues[4] == tboardValues[5] == self.firstPlayerSymbol)
 			or (tboardValues[6] == tboardValues[7] == tboardValues[8] == self.firstPlayerSymbol)
 			or (tboardValues[0] == tboardValues[3] == tboardValues[6] == self.firstPlayerSymbol)
