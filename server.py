@@ -17,6 +17,13 @@ class tictactoe:
 
 	def __init__(self):
 		global firebase
+		self.firstPlayer = 'NOPLAYER'
+		self.secondPlayer = 'NOPLAYER'
+		self.firstPlayerSymbol = 'X'
+		self.secondPlayerSymbol = 'O'
+		self.gameOn = False
+		self.boardValues = ['-','-','-','-','-','-','-','-','-'] 
+		self.nextTurn = 'NOPLAYER'
 		json_format = self.serialize()
 		firebase.put('/game', 'master', json_format)
 
