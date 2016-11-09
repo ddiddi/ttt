@@ -93,7 +93,7 @@ class tictactoe:
 	def getBoard(self):
 		headerString = '\n*1 2 3  \n'
 		topLineString = 'a | '+self.boardValues[0]+' | '+self.boardValues[1]+' | '+self.boardValues[2]+' |\n'
-		breakLineString = ' | --- + --- + --- |'
+		breakLineString = ' |---+---+---| \n'
 		middleLineString = 'b | '+self.boardValues[3]+' | '+self.boardValues[4]+' | '+self.boardValues[5]+' |\n'
 		bottomLineString = 'c | '+self.boardValues[6]+' | '+self.boardValues[7]+' | '+self.boardValues[8]+' |\n'
 		outputString = headerString+topLineString+breakLineString+middleLineString+breakLineString+bottomLineString
