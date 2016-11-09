@@ -35,26 +35,14 @@ class tictactoe:
 
 	def updateFromServer(self):
 		global firebase
-		print("ddddddd")
 		data = firebase.get('/game', None)
-		print(data['master'])
 		dataValues = self.deserialize(data['master'])
-		print(self.deserialize(data['master']))
-		print("dddddddasdasdasdMoguu")
-		print(dataValues['firstPlayer'])
-		print("asdggddddddddd")
 		self.firstPlayer = dataValues['firstPlayer']
-		print("asdasd5")
 		self.secondPlayer = dataValues['secondPlayer']
-		print("asdasd4")
 		self.firstPlayerSymbol = dataValues['firstPlayerSymbol']
-		print("asdasd5")
 		self.secondPlayerSymbol = dataValues['secondPlayerSymbol']
-		print("asdasd6")
 		self.gameOn = dataValues['gameOn']
-		print("asdasd7")
 		self.boardValues = dataValues['boardValues'] 
-		print("asdasd8")
 		self.nextTurn = dataValues['nextTurn']
 
 	def update(self):
@@ -215,36 +203,23 @@ def executeParams(text,user_name, channel_id, user_id):
 	if subcommand[0] == '@' and commandValue == '':
 		print("Here")
 		if game.gameOn:
-			print("Here1")
 			return createGameYesResponse()
 		else:
-			print("Here2")
 			if isValidUsername(subcommand[1:], channel_id, user_id):
-				print("Here3")
-				print(game.firstPlayer)		
 				game.firstPlayer = user_name
-				print("Here4")
 				game.secondPlayer = subcommand[1:]
-				print("Here5")
 				game.nextTurn = user_name
-				print("Here6")
 				game.gameOn = True
 				game.update()
-				print(game.firstPlayer)
-				print("Here7")
 				return createGameListResponse()
 			else:
-				print("Here8")
 				return createInvalidUserResponse()
 	
 	elif subcommand == 'ls' and commandValue == '':
 		return createListResponseString()
 
 	elif subcommand == 'put':
-		print("Here9")
-		print("Here11111")
 		if game.gameOn:
-			print("Here10")
 			return createPutResponseString(user_name, commandValue)
 		return createNoGameListResponse()
 
@@ -266,9 +241,7 @@ def createCorrectUserResponse(user_name, commandValue):
 	global game
 	game.changeBoardValue(commandValue, game.getSymbol(user_name))
 	gameString = createGameListResponse()
-	print("hoihhihihi")
 	endCondition = game.checkGameEndCondition()
-	print("hoihhihihi2")
 	winString = ''
 	if endCondition != -1:
 		winString = 'The winner is '+ endCondition +' \n'
@@ -304,19 +277,12 @@ def createListResponseString():
 	return outputString
 
 def createGameListResponse():
-	print("gamelist")
 	global game
-	print("gamelist1")
 	firstPlayerString = 'First Player : ' + game.firstPlayer +' '+ game.firstPlayerSymbol+' \n'
-	print("gamelist2")
 	secondPlayerString = 'Second Player : '+ game.secondPlayer +' '+ game.secondPlayerSymbol+' \n'
-	print("gamelist3")
 	gameString = game.getBoard()
-	print("gamelist4")
 	nextTurnString = 'Turn: ' + game.nextTurn+ '\n'
-	print("gamelist5")
 	outputString = firstPlayerString + secondPlayerString + gameString + nextTurnString
-	print(outputString)
 	return outputString
 
 def createNoGameListResponse():
@@ -335,9 +301,10 @@ def createInvalidUserResponse():
 	return outputString
 
 def isValidUsername(username, channel_id, user_id):
-	response = sc.api_call("channels.info",channel=channel_id)
-	if user_id in response['channel']['members']:
-		return True
+	response = sc.api_call("users.list")
+	for user in response['members']:
+		if user['name'] == username:
+			return True
 	return False
 
 
