@@ -266,7 +266,9 @@ def createCorrectUserResponse(user_name, commandValue):
 	global game
 	game.changeBoardValue(commandValue, game.getSymbol(user_name))
 	gameString = createGameListResponse()
+	print("hoihhihihi")
 	endCondition = game.checkGameEndCondition()
+	print("hoihhihihi2")
 	winString = ''
 	if endCondition != -1:
 		winString = 'The winner is '+ endCondition
