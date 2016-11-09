@@ -150,6 +150,10 @@ class tictactoe:
 			or (tboardValues[0] == tboardValues[4] == tboardValues[8] == self.secondPlayerSymbol)
 			or (tboardValues[2] == tboardValues[4] == tboardValues[6] == self.secondPlayerSymbol)):
 			return self.secondPlayer
+		if ((tboardValues[0] != '-') and (tboardValues[1] != '-') and (tboardValues[2] != '-') 
+			and (tboardValues[3] != '-') and (tboardValues[4] != '-') and (tboardValues[5] != '-')
+			and (tboardValues[6] != '-') and (tboardValues[7] != '-') and (tboardValues[8] != '-')):
+			return "Draw"
 		return -1
 
 	@property
@@ -244,7 +248,10 @@ def createCorrectUserResponse(user_name, commandValue):
 	endCondition = game.checkGameEndCondition()
 	winString = ''
 	if endCondition != -1:
-		winString = 'The winner is '+ endCondition +' \n'
+		if endCondition == 'Draw'
+			winString = 'It is a draw!'
+		else:
+			winString = 'The winner is '+ endCondition +' \n'
 		game = tictactoe()
 	outputString = gameString + winString
 	return outputString
