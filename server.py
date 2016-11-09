@@ -210,6 +210,7 @@ def executeParams(text,user_name, channel_id, user_id):
 	else:
 		subcommand = params[0]
 
+	game.updateFromServer()
 
 	if subcommand[0] == '@' and commandValue == '':
 		print("Here")
@@ -241,7 +242,6 @@ def executeParams(text,user_name, channel_id, user_id):
 
 	elif subcommand == 'put':
 		print("Here9")
-		game.updateFromServer()
 		print("Here11111")
 		if game.gameOn:
 			print("Here10")
@@ -313,7 +313,7 @@ def createGameListResponse():
 	print("gamelist3")
 	gameString = game.getBoard()
 	print("gamelist4")
-	nextTurnString = 'Turn: ' + game.nextTurn
+	nextTurnString = 'Turn: ' + game.nextTurn+ '\n'
 	print("gamelist5")
 	outputString = firstPlayerString + secondPlayerString + gameString + nextTurnString
 	print(outputString)
