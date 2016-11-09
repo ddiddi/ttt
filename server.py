@@ -143,24 +143,25 @@ class tictactoe:
 		self.__class__._secondPlayerSymbol = newValue
 
 	def checkGameEndCondition(self):
-		if ((self.boardValues[0] == self.boardValues[1] == self.boardValues[2] == self.firstPlayerSymbol)
-			or (self.boardValues[3] == self.boardValues[4] == self.boardValues[5] == self.firstPlayerSymbol)
-			or (self.boardValues[6] == self.boardValues[7] == self.boardValues[8] == self.firstPlayerSymbol)
-			or (self.boardValues[0] == self.boardValues[3] == self.boardValues[6] == self.firstPlayerSymbol)
-			or (self.boardValues[1] == self.boardValues[4] == self.boardValues[7] == self.firstPlayerSymbol)
-			or (self.boardValues[2] == self.boardValues[5] == self.boardValues[8] == self.firstPlayerSymbol)
-			or (self.boardValues[0] == self.boardValues[4] == self.boardValues[8] == self.firstPlayerSymbol)
-			or (self.boardValues[2] == self.boardValues[4] == self.boardValues[6] == self.firstPlayerSymbol)):
-			return self._firstPlayer()
-		if ((self.boardValues[0] == self.boardValues[1] == self.boardValues[2] == self.secondPlayerSymbol)
-			or (self.boardValues[3] == self.boardValues[4] == self.boardValues[5] == self.secondPlayerSymbol)
-			or (self.boardValues[6] == self.boardValues[7] == self.boardValues[8] == self.secondPlayerSymbol)
-			or (self.boardValues[0] == self.boardValues[3] == self.boardValues[6] == self.secondPlayerSymbol)
-			or (self.boardValues[1] == self.boardValues[4] == self.boardValues[7] == self.secondPlayerSymbol)
-			or (self.boardValues[2] == self.boardValues[5] == self.boardValues[8] == self.secondPlayerSymbol)
-			or (self.boardValues[0] == self.boardValues[4] == self.boardValues[8] == self.secondPlayerSymbol)
-			or (self.boardValues[2] == self.boardValues[4] == self.boardValues[6] == self.secondPlayerSymbol)):
-			return self._secondPlayer()
+		tboardValues = self.boardValues
+		if ((tboardValuest[0] == tboardValues[1] == tboardValues[2] == self.firstPlayerSymbol)
+			or (tboardValues[3] == tboardValues[4] == tboardValues[5] == self.firstPlayerSymbol)
+			or (tboardValues[6] == tboardValues[7] == tboardValues[8] == self.firstPlayerSymbol)
+			or (tboardValues[0] == tboardValues[3] == tboardValues[6] == self.firstPlayerSymbol)
+			or (tboardValues[1] == tboardValues[4] == tboardValues[7] == self.firstPlayerSymbol)
+			or (tboardValues[2] == tboardValues[5] == tboardValues[8] == self.firstPlayerSymbol)
+			or (tboardValues[0] == tboardValues[4] == tboardValues[8] == self.firstPlayerSymbol)
+			or (tboardValues[2] == tboardValues[4] == tboardValues[6] == self.firstPlayerSymbol)):
+			return self.firstPlayer()
+		if ((tboardValues[0] == tboardValues[1] == tboardValues[2] == self.secondPlayerSymbol)
+			or (tboardValues[3] == tboardValues[4] == tboardValues[5] == self.secondPlayerSymbol)
+			or (tboardValues[6] == tboardValues[7] == tboardValues[8] == self.secondPlayerSymbol)
+			or (tboardValues[0] == tboardValues[3] == tboardValues[6] == self.secondPlayerSymbol)
+			or (tboardValues[1] == tboardValues[4] == tboardValues[7] == self.secondPlayerSymbol)
+			or (tboardValues[2] == tboardValues[5] == tboardValues[8] == self.secondPlayerSymbol)
+			or (tboardValues[0] == tboardValues[4] == tboardValues[8] == self.secondPlayerSymbol)
+			or (tboardValues[2] == tboardValues[4] == tboardValues[6] == self.secondPlayerSymbol)):
+			return self.secondPlayer()
 		return -1
 
 	@property
