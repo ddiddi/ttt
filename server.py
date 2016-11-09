@@ -38,6 +38,7 @@ class tictactoe:
 		data = firebase.get('/game', None)
 		dataValues = data['master']
 		print(dataValues)
+		print(self.firstPlayer)
 		self.firstPlayer = dataValues['firstPlayer']
 		print("asdasd5")
 		self.secondPlayer = dataValues['secondPlayer']
