@@ -34,15 +34,25 @@ class tictactoe:
 		return json.loads(json_input)
 
 	def updateFromServer(self):
+		print("asdasd")
 		global firebase
+		print("asdasd1")
 		data = firebase.get('/game', None)
+		print("asdasd2")
 		dataValues = data['master']
+		print("asdasd3")
 		self.firstPlayer = dataValues['firstPlayer']
+		print("asdasd5")
 		self.secondPlayer = dataValues['secondPlayer']
+		print("asdasd4")
 		self.firstPlayerSymbol = dataValues['firstPlayerSymbol']
+		print("asdasd5")
 		self.secondPlayerSymbol = dataValues['secondPlayerSymbol']
+		print("asdasd6")
 		self.gameOn = dataValues['gameOn']
+		print("asdasd7")
 		self.boardValues = dataValues['boardValues'] 
+		print("asdasd8")
 		self.nextTurn = dataValues['nextTurn']
 
 	def update(self):
