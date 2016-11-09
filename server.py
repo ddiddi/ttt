@@ -271,7 +271,8 @@ def createCorrectUserResponse(user_name, commandValue):
 	print("hoihhihihi2")
 	winString = ''
 	if endCondition != -1:
-		winString = 'The winner is '+ endCondition
+		winString = 'The winner is '+ endCondition +' \n'
+		game = tictactoe()
 	outputString = gameString + winString
 	return outputString
 
