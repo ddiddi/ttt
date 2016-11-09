@@ -32,13 +32,14 @@ class tictactoe:
 
 	def deserialize(self, json_input):
 		print("dddd")
-		print(json.load(json_input))
-		return(json.load(json_input))
+		print(json.loads(json_input))
+		return(json.loads(json_input))
 
 	def updateFromServer(self):
 		global firebase
 		print("ddddddd")
 		data = firebase.get('/game', None)
+		print(data)
 		dataValues = self.deserialize(data)
 		print(dataValues)
 		print("dddddddasdasdasdMoguu")
