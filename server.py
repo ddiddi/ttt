@@ -152,7 +152,7 @@ class tictactoe:
 			or (tboardValues[2] == tboardValues[5] == tboardValues[8] == self.firstPlayerSymbol)
 			or (tboardValues[0] == tboardValues[4] == tboardValues[8] == self.firstPlayerSymbol)
 			or (tboardValues[2] == tboardValues[4] == tboardValues[6] == self.firstPlayerSymbol)):
-			return self.firstPlayer()
+			return self.firstPlayer
 		if ((tboardValues[0] == tboardValues[1] == tboardValues[2] == self.secondPlayerSymbol)
 			or (tboardValues[3] == tboardValues[4] == tboardValues[5] == self.secondPlayerSymbol)
 			or (tboardValues[6] == tboardValues[7] == tboardValues[8] == self.secondPlayerSymbol)
@@ -161,7 +161,7 @@ class tictactoe:
 			or (tboardValues[2] == tboardValues[5] == tboardValues[8] == self.secondPlayerSymbol)
 			or (tboardValues[0] == tboardValues[4] == tboardValues[8] == self.secondPlayerSymbol)
 			or (tboardValues[2] == tboardValues[4] == tboardValues[6] == self.secondPlayerSymbol)):
-			return self.secondPlayer()
+			return self.secondPlayer
 		return -1
 
 	@property
